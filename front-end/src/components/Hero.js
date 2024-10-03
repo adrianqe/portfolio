@@ -3,13 +3,19 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import InputLabel from '@mui/material/InputLabel';
-import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import { visuallyHidden } from '@mui/utils';
 import { styled } from '@mui/material/styles';
+
+const email = 'ajquirose05@gmail.com';
+
+const handleCopy = () => {
+  navigator.clipboard.writeText(email);
+  alert('Correo copiado al portapapeles');
+};
 
 const StyledBox = styled('div')(({ theme }) => ({
   alignSelf: 'center',
@@ -86,7 +92,7 @@ export default function Hero() {
                 }),
               })}
             >
-              Developer
+              <div data-section="profile" data-value="rol">Developer</div>
             </Typography>
           </Typography>
           <Typography
@@ -96,9 +102,12 @@ export default function Hero() {
               width: { sm: '100%', md: '80%' },
             }}
           >
-            I am a proactive, organized, and responsible individual.
-            I am passionate about artificial intelligence and programming, and I am seeking opportunities to apply my knowledge and skills in innovative and challenging projects.
+            <div data-section="profile" data-value="description">
+              I am a proactive, organized, and responsible individual.
+              I'm passionate about artificial intelligence and programming, and always seeking opportunities to apply my knowledge and skills in innovative and challenging projects.
+            </div>
           </Typography>
+          
           <Stack
             direction={{ xs: 'column', sm: 'row' }}
             spacing={1}
@@ -113,36 +122,18 @@ export default function Hero() {
               hiddenLabel
               size="small"
               variant="outlined"
-              aria-label="Enter your email address"
-              placeholder="Your email address"
+              aria-label="Correo"
+              value={email} // correo aquí
               fullWidth
-              slotProps={{
-                htmlInput: {
-                  autoComplete: 'off',
-                  'aria-label': 'Enter your email address',
-                },
+              InputProps={{
+                readOnly: true, // Para que no se pueda modificar
               }}
             />
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              sx={{ minWidth: 'fit-content' }}
-            >
-              Start now
+            <Button variant="contained" onClick={handleCopy} data-section="profile" data-value="copyButton">
+              Copy
             </Button>
           </Stack>
-          <Typography
-            variant="caption"
-            color="text.secondary"
-            sx={{ textAlign: 'center' }}
-          >
-            By clicking &quot;Start now&quot; you agree to our&nbsp;
-            <Link href="#" color="primary">
-              Terms & Conditions
-            </Link>
-            .
-          </Typography>
+          
         </Stack>
         <StyledBox id="image" />
       </Container>

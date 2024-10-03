@@ -1,0 +1,10 @@
+{   
+    "profile": {
+        "rol" : "Desarrolador",
+        "description" : "I am a proactive, organized, and responsible individual. I'm passionate about artificial intelligence and programming, and always seeking opportunities to apply my knowledge and skills in innovative and challenging projects.",
+        "copyButton" : "Copy"
+    },
+    "appBar" : {
+        "portfolio" : "Portfolio"
+    }
+}

@@ -56,20 +56,21 @@ function TemplateFrame({
           >
             <Button
               variant="text"
-              size="small"
-              aria-label="Back to templates"
-              startIcon={<ArrowBackRoundedIcon />}
+              size="medium"
+              aria-label="Résumé"
               component="a"
-              href="/material-ui/getting-started/templates/"
+              href="./pdf/ResumeCurriculumAdriánQuirós.pdf"
+              target="_blank"
               sx={{ display: { xs: 'none', sm: 'flex' } }}
             >
-              Back to templates
+              Résumé
             </Button>
             <IconButton
               size="small"
-              aria-label="Back to templates"
+              aria-label="Résumé"
               component="a"
-              href="/material-ui/getting-started/templates/"
+              href="./pdf/ResumeCurriculumAdriánQuirós.pdf"
+              target="_blank"
               sx={{ display: { xs: 'auto', sm: 'none' } }}
             >
               <ArrowBackRoundedIcon />
