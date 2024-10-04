@@ -100,12 +100,12 @@ export default function Hero() {
               textAlign: 'center',
               color: 'text.secondary',
               width: { sm: '100%', md: '80%' },
+              fontSize: { xs: '0.875rem', sm: '1rem', md: '1.125rem' }, // Ajusta el tamaño según el dispositivo
             }}
           >
-            <div data-section="profile" data-value="description">
-              I am a proactive, organized, and responsible individual.
-              I'm passionate about artificial intelligence and programming, and always seeking opportunities to apply my knowledge and skills in innovative and challenging projects.
-            </div>
+            <span data-section="profile" data-value="description">
+            I am a software developer with experience in Web and Mobile development. I am passionate about technology and love learning new things. I consider myself a proactive, responsible, and committed individual in my work.
+            </span>
           </Typography>
           
           <Stack
@@ -130,7 +130,7 @@ export default function Hero() {
               }}
             />
             <Button variant="contained" onClick={handleCopy} data-section="profile" data-value="copyButton">
-              Copy
+              <div data-section="copyButton" data-value="copy">Copy</div>
             </Button>
           </Stack>
           

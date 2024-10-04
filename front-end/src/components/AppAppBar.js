@@ -53,7 +53,7 @@ export default function AppAppBar() {
               data-section="appBar"
               data-value="portfolio"
             >
-              Portfolio
+              <div data-section="portfolio" data-value="name">Portfolio</div>
             </Typography>
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               <Button variant="text" color="info" size="small">

@@ -1,0 +1,17 @@
+{
+    "CV": {
+      "curriculum": "Résumé"
+    },
+
+    "profile": {
+      "rol": "Developer",
+      "description": "I am a software developer with experience in web and mobile application development. I am passionate about technology and love learning new things. I consider myself a proactive, responsible, and committed individual in my work."
+    },
+    "copyButton": {
+      "copy": "Copy"
+    },
+
+    "portfolio": {
+      "name": "Portfolio"
+    }
+}

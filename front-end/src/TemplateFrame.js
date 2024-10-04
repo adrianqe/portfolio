@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import Select from '@mui/material/Select';
@@ -12,6 +12,23 @@ import Toolbar from '@mui/material/Toolbar';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import ToggleColorMode from './components/ToggleColorMode';
 import getMPTheme from './theme/getMPTheme';
+
+const changeLanguage = async (language) => {
+  try {
+    const requestJSON = await fetch(`/language/${language}.json`);
+    const texts = await requestJSON.json();
+
+    document.querySelectorAll('[data-section]').forEach((element) => {
+      const section = element.dataset.section;
+      const value = element.dataset.value;
+      if (texts[section] && texts[section][value]) {
+        element.textContent = texts[section][value];
+      }
+    });
+  } catch (error) {
+    console.error(`Failed to load or apply language file for ${language}:`, error);
+  }
+};
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   position: 'relative',
@@ -30,14 +47,25 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
 
 function TemplateFrame({
   showCustomTheme,
-  toggleCustomTheme,
   mode,
   toggleColorMode,
   children,
 }) {
-  const handleChange = (event) => {
-    toggleCustomTheme(event.target.value === 'custom');
+  const [language, setLanguage] = useState('en');
+  const [resumeLink, setResumeLink] = useState('/pdf/ResumeCurriculumAdriánQuirós.pdf'); // Estado para el link
+
+  const handleLanguageChange = (event) => {
+    const newLanguage = event.target.value;
+    setLanguage(newLanguage);
+    changeLanguage(newLanguage);
+
+    // Cambiar el href del PDF según el idioma
+    const newResumeLink = newLanguage === 'es'
+      ? '/pdf/CurriculumAdriánQuirós.pdf'
+      : '/pdf/ResumeCurriculumAdriánQuirós.pdf';
+    setResumeLink(newResumeLink);
   };
+
   const MPTheme = createTheme(getMPTheme(mode));
 
   return (
@@ -59,34 +87,35 @@ function TemplateFrame({
               size="medium"
               aria-label="Résumé"
               component="a"
-              href="./pdf/ResumeCurriculumAdriánQuirós.pdf"
+              href={resumeLink} 
               target="_blank"
+              rel="noopener noreferrer"
               sx={{ display: { xs: 'none', sm: 'flex' } }}
             >
-              Résumé
+              <div data-section="CV" data-value="curriculum">Résumé</div>
             </Button>
             <IconButton
+              variant="text"
               size="small"
               aria-label="Résumé"
               component="a"
-              href="./pdf/ResumeCurriculumAdriánQuirós.pdf"
+              href={resumeLink} 
               target="_blank"
               sx={{ display: { xs: 'auto', sm: 'none' } }}
             >
-              <ArrowBackRoundedIcon />
+              CV
             </IconButton>
             <Box sx={{ display: 'flex', gap: 1 }}>
               <FormControl variant="outlined" sx={{ minWidth: 180 }}>
                 <Select
                   size="small"
-                  labelId="theme-select-label"
-                  id="theme-select"
-                  value={showCustomTheme ? 'custom' : 'material'}
-                  onChange={handleChange}
-                  label="Design Language"
+                  id="language-select"
+                  value={language}
+                  onChange={handleLanguageChange}
+                  label="Language"
                 >
-                  <MenuItem value="custom">Custom Theme</MenuItem>
-                  <MenuItem value="material">Material Design 2</MenuItem>
+                  <MenuItem value="en" data-language="en">English</MenuItem>
+                  <MenuItem value="es" data-language="es">Español</MenuItem>
                 </Select>
               </FormControl>
               <ToggleColorMode
@@ -106,7 +135,6 @@ function TemplateFrame({
 TemplateFrame.propTypes = {
   children: PropTypes.node,
   mode: PropTypes.oneOf(['dark', 'light']).isRequired,
-  showCustomTheme: PropTypes.bool.isRequired,
   toggleColorMode: PropTypes.func.isRequired,
   toggleCustomTheme: PropTypes.func.isRequired,
 };
