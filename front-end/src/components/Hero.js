@@ -104,7 +104,7 @@ export default function Hero() {
             }}
           >
             <span data-section="profile" data-value="description">
-            I am a software developer with experience in Web and Mobile development. I am passionate about technology and love learning new things. I consider myself a proactive, responsible, and committed individual in my work.
+            I am a software developer with experience in Web and Mobile development. I'm passionate about technology and love learning new things. I consider myself a proactive, responsible, and committed individual in my work.
             </span>
           </Typography>
           

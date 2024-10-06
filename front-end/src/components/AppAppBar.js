@@ -27,6 +27,13 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   padding: '8px 12px',
 }));
 
+const OnClicjGitHub = () => {
+  window.open('https://github.com/adrianqe', '_blank');
+};
+
+const OnClickLinkedIn = () => {
+  window.open('https://www.linkedin.com/in/adrian-quiros-elizondo-639906300/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app', '_blank');
+};
 export default function AppAppBar() {
   const [open, setOpen] = React.useState(false);
 
@@ -83,11 +90,11 @@ export default function AppAppBar() {
               alignItems: 'center',
             }}
           >
-            <Button color="primary" variant="text" size="small">
-              Sign in
+            <Button color="primary" variant="text" size="small" onClick={OnClicjGitHub}>
+              GitHub
             </Button>
-            <Button color="primary" variant="contained" size="small">
-              Sign up
+            <Button color="primary" variant="contained" size="small" onClick={OnClickLinkedIn}>
+              LinkedIn
             </Button>
           </Box>
           <Box sx={{ display: { sm: 'flex', md: 'none' } }}>
