@@ -13,5 +13,14 @@
 
     "portfolio": {
       "name": "Portfolio"
+    },
+    "logoCollection": {
+      "title": "Tecnologies I've worked with"
+    },
+    "features": {
+      "title": "Feature Projects",
+      "description": "These are some of the most important projects I have worked on. Click on the items to learn more about.",
+      "title-1": "Mobile App",
+      "description-1": "This mobile application scans the barcode of a product and shows its nutritional information. It was developed using .Net MAUI."
     }
 }

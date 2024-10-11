@@ -28,6 +28,8 @@ export default function LogoCollection() {
         variant="h3"
         align="center"
         sx={{ color: 'text.secondary' }}
+        data-section="logoCollection"
+        data-value="title"
       >
         Tecnologies I've worked with
       </Typography>
