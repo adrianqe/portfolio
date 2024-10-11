@@ -7,6 +7,8 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -64,7 +66,7 @@ export default function AppAppBar() {
             </Typography>
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               <Button variant="text" color="info" size="small">
-                Features
+                Projects
               </Button>
               <Button variant="text" color="info" size="small">
                 Testimonials
@@ -90,12 +92,12 @@ export default function AppAppBar() {
               alignItems: 'center',
             }}
           >
-            <Button color="primary" variant="text" size="small" onClick={OnClicjGitHub}>
-              GitHub
-            </Button>
-            <Button color="primary" variant="contained" size="small" onClick={OnClickLinkedIn}>
-              LinkedIn
-            </Button>
+            <IconButton color="primary" variant="text" size="small" onClick={OnClicjGitHub}>
+              <GitHubIcon />
+            </IconButton>
+            <IconButton color="primary" variant="contained" size="small" onClick={OnClickLinkedIn}>
+            <LinkedInIcon />
+            </IconButton>
           </Box>
           <Box sx={{ display: { sm: 'flex', md: 'none' } }}>
             <IconButton aria-label="Menu button" onClick={toggleDrawer(true)}>
@@ -115,21 +117,19 @@ export default function AppAppBar() {
                   </IconButton>
                 </Box>
                 <Divider sx={{ my: 3 }} />
-                <MenuItem>Features</MenuItem>
+                <MenuItem>Projects</MenuItem>
                 <MenuItem>Testimonials</MenuItem>
                 <MenuItem>Highlights</MenuItem>
                 <MenuItem>Pricing</MenuItem>
                 <MenuItem>FAQ</MenuItem>
                 <MenuItem>Blog</MenuItem>
                 <MenuItem>
-                  <Button color="primary" variant="contained" fullWidth>
-                    Sign up
-                  </Button>
-                </MenuItem>
-                <MenuItem>
-                  <Button color="primary" variant="outlined" fullWidth>
-                    Sign in
-                  </Button>
+                <IconButton color="primary" variant="text" size="small" onClick={OnClicjGitHub}>
+              <GitHubIcon />
+            </IconButton> &nbsp; &nbsp;
+                <IconButton color="primary" size="small" onClick={OnClickLinkedIn}>
+              <LinkedInIcon />
+            </IconButton>
                 </MenuItem>
               </Box>
             </Drawer>

@@ -5,6 +5,8 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
@@ -12,6 +14,14 @@ import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Sitemark from './SitemarkIcon';
+
+const OnClicjGitHub = () => {
+  window.open('https://github.com/adrianqe', '_blank');
+};
+
+const OnClickLinkedIn = () => {
+  window.open('https://www.linkedin.com/in/adrian-quiros-elizondo-639906300/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app', '_blank');
+};
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: 'flex',
@@ -45,7 +55,7 @@ export default function AppAppBar() {
             <Sitemark />
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               <Button variant="text" color="info" size="small">
-                Features
+              Projects
               </Button>
               <Button variant="text" color="info" size="small">
                 Testimonials
@@ -71,12 +81,12 @@ export default function AppAppBar() {
               alignItems: 'center',
             }}
           >
-            <Button color="primary" variant="text" size="small">
-              Sign in
-            </Button>
-            <Button color="primary" variant="contained" size="small">
-              Sign up
-            </Button>
+            <IconButton color="primary" size="small" onClick={OnClicjGitHub}>
+              <GitHubIcon />
+            </IconButton>
+            <IconButton color="primary" size="small" onClick={OnClickLinkedIn}>
+              <LinkedInIcon />
+            </IconButton>
           </Box>
           <Box sx={{ display: { sm: 'flex', md: 'none' } }}>
             <IconButton aria-label="Menu button" onClick={toggleDrawer(true)}>
@@ -96,21 +106,19 @@ export default function AppAppBar() {
                   </IconButton>
                 </Box>
                 <Divider sx={{ my: 3 }} />
-                <MenuItem>Features</MenuItem>
+                <MenuItem>Projects</MenuItem>
                 <MenuItem>Testimonials</MenuItem>
                 <MenuItem>Highlights</MenuItem>
                 <MenuItem>Pricing</MenuItem>
                 <MenuItem>FAQ</MenuItem>
                 <MenuItem>Blog</MenuItem>
                 <MenuItem>
-                  <Button color="primary" variant="contained" fullWidth>
-                    Sign up
-                  </Button>
-                </MenuItem>
-                <MenuItem>
-                  <Button color="primary" variant="outlined" fullWidth>
-                    Sign in
-                  </Button>
+                <IconButton color="primary" size="small" onClick={OnClicjGitHub}>
+              <GitHubIcon />
+            </IconButton> &nbsp; &nbsp;
+                <IconButton color="primary" size="small" onClick={OnClickLinkedIn}>
+              <LinkedInIcon />
+            </IconButton>
                 </MenuItem>
               </Box>
             </Drawer>
