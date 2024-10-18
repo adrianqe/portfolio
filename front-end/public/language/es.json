@@ -22,6 +22,10 @@
       "title": "Proyectos Destacados",
       "description": "Estos son algunos de los proyectos más importantes en los que he trabajado. Haz clic en los elementos para obtener más información.",
       "title-1": "Aplicación Móvil",
-      "description-1": "Esta aplicación móvil escanea el código de barras de un producto y muestra su información nutricional. Fue desarrollada utilizando .Net MAUI."
+      "description-1": "Esta aplicación móvil escanea el código de barras de un producto y muestra su información nutricional. Fue desarrollada utilizando .Net MAUI.",
+      "title-2": "Aplicación Web",
+      "description-2": "Esta aplicación web permite a los usuarios crear y gestionar sus propias tareas. Fue desarrollada utilizando React.",
+      "title-3": "Portafolio",
+      "description-3": "Este portafolio fue creado utilizando React, Material-UI y Vercel. Fue diseñado para ser responsive y accesible."
     }
 }

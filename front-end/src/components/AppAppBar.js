@@ -13,7 +13,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import Typography from '@mui/material/Typography'; // Importa Typography para el texto
+import Typography from '@mui/material/Typography';
+import { useState, useEffect } from 'react'; // Importa los hooks
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: 'flex',
@@ -36,7 +37,44 @@ const OnClicjGitHub = () => {
 const OnClickLinkedIn = () => {
   window.open('https://www.linkedin.com/in/adrian-quiros-elizondo-639906300/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app', '_blank');
 };
+
 export default function AppAppBar() {
+  // Mueve los hooks aquí
+  const [activeSection, setActiveSection] = useState('');
+  const sections = ['features', 'testimonials', 'highlights', 'pricing', 'faq', 'blog'];
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const currentSection = sections.find(section => {
+        const sectionElement = document.getElementById(section);
+        return (
+          sectionElement.offsetTop <= scrollPosition + 100 &&
+          sectionElement.offsetTop + sectionElement.offsetHeight > scrollPosition + 100
+        );
+      });
+
+      if (currentSection) {
+        setActiveSection(currentSection);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [sections]);
+
+  const scrollToSection = (sectionId) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      window.scrollTo({
+        top: section.offsetTop,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen) => () => {
@@ -65,38 +103,32 @@ export default function AppAppBar() {
               <div data-section="portfolio" data-value="name">Portfolio</div>
             </Typography>
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-              <Button variant="text" color="info" size="small">
+              <Button variant="text" color={activeSection === 'features' ? 'primary' : 'info'} size="small" onClick={() => scrollToSection('projects')}>
                 Projects
               </Button>
-              <Button variant="text" color="info" size="small">
+              <Button variant="text" color={activeSection === 'testimonials' ? 'primary' : 'info'} size="small" onClick={() => scrollToSection('testimonials')}>
                 Testimonials
               </Button>
-              <Button variant="text" color="info" size="small">
+              <Button variant="text" color={activeSection === 'highlights' ? 'primary' : 'info'} size="small" onClick={() => scrollToSection('highlights')}>
                 Highlights
               </Button>
-              <Button variant="text" color="info" size="small">
+              <Button variant="text" color={activeSection === 'pricing' ? 'primary' : 'info'} size="small" onClick={() => scrollToSection('pricing')}>
                 Pricing
               </Button>
-              <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }}>
+              <Button variant="text" color={activeSection === 'faq' ? 'primary' : 'info'} size="small" sx={{ minWidth: 0 }} onClick={() => scrollToSection('faq')}>
                 FAQ
               </Button>
-              <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }}>
+              <Button variant="text" color={activeSection === 'blog' ? 'primary' : 'info'} size="small" sx={{ minWidth: 0 }} onClick={() => scrollToSection('blog')}>
                 Blog
               </Button>
             </Box>
           </Box>
-          <Box
-            sx={{
-              display: { xs: 'none', md: 'flex' },
-              gap: 1,
-              alignItems: 'center',
-            }}
-          >
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1, alignItems: 'center' }}>
             <IconButton color="primary" variant="text" size="small" onClick={OnClicjGitHub}>
               <GitHubIcon />
             </IconButton>
             <IconButton color="primary" variant="contained" size="small" onClick={OnClickLinkedIn}>
-            <LinkedInIcon />
+              <LinkedInIcon />
             </IconButton>
           </Box>
           <Box sx={{ display: { sm: 'flex', md: 'none' } }}>
@@ -105,13 +137,7 @@ export default function AppAppBar() {
             </IconButton>
             <Drawer anchor="top" open={open} onClose={toggleDrawer(false)}>
               <Box sx={{ p: 2, backgroundColor: 'background.default' }}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                  }}
-                >
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <IconButton onClick={toggleDrawer(false)}>
                     <CloseRoundedIcon />
                   </IconButton>
@@ -124,12 +150,13 @@ export default function AppAppBar() {
                 <MenuItem>FAQ</MenuItem>
                 <MenuItem>Blog</MenuItem>
                 <MenuItem>
-                <IconButton color="primary" variant="text" size="small" onClick={OnClicjGitHub}>
-              <GitHubIcon />
-            </IconButton> &nbsp; &nbsp;
-                <IconButton color="primary" size="small" onClick={OnClickLinkedIn}>
-              <LinkedInIcon />
-            </IconButton>
+                  <IconButton color="primary" variant="text" size="small" onClick={OnClicjGitHub}>
+                    <GitHubIcon />
+                  </IconButton>
+                  &nbsp; &nbsp;
+                  <IconButton color="primary" size="small" onClick={OnClickLinkedIn}>
+                    <LinkedInIcon />
+                  </IconButton>
                 </MenuItem>
               </Box>
             </Drawer>

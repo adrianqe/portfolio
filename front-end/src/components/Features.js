@@ -48,17 +48,17 @@ const items = [
     icon: <ViewQuiltRoundedIcon />,
     title: (
       <span data-section="features" data-value="title-3">
-        Dashboard
+        Portfolio
       </span>
     ),
     description: (
       <span data-section="features" data-value="description-3">
-        This item could provide a snapshot of the most important metrics or data points related to the product.
+        This portfolio was created using React, Material-UI, and Vercel. It was designed to be responsive and accessible.
       </span>
     ),
     imageLight: 'url("/static/images/templates/templates-images/dash-light.png")',
     imageDark: 'url("/static/images/templates/templates-images/dash-dark.png")',
-    repoLink: 'https://github.com/adrianqe/Dashboard',
+    repoLink: 'https://github.com/adrianqe/portfolio',
   },
 ];
 
