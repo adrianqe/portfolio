@@ -25,6 +25,6 @@
       "title-2": "Web App",
       "description-2": "This web application allows users to create and manage their own tasks. It was developed using React.",
       "title-3": "Portfolio",
-      "description-3": "This portfolio was created using React, Material-UI, and Vercel. It was designed to be responsive and accessible."
+      "description-3": "This portfolio was created using React and Material-UI. It was designed to be responsive and accessible."
     }
 }

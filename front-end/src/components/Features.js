@@ -24,8 +24,8 @@ const items = [
         This mobile application scans the barcode of a product and shows its nutritional information. It was developed using .Net MAUI.
       </span>
     ),
-    imageLight: 'url(./img/nutriMockupLight.png)',
-    imageDark: 'url(./img/nutriMockupDark.png)',
+    imageLight: 'url(./img/portfolioIMG-white.png)',
+    imageDark: 'url(./img/portfolioIMG-dark.png)',
     repoLink: 'https://github.com/adrianqe/NutriApp',
   },
   {
@@ -53,11 +53,11 @@ const items = [
     ),
     description: (
       <span data-section="features" data-value="description-3">
-        This portfolio was created using React, Material-UI, and Vercel. It was designed to be responsive and accessible.
+        This portfolio was created using React and Material-UI. It was designed to be responsive and accessible.
       </span>
     ),
-    imageLight: 'url("/static/images/templates/templates-images/dash-light.png")',
-    imageDark: 'url("/static/images/templates/templates-images/dash-dark.png")',
+    imageLight: 'url("./img/portfoliomockup.png")',
+    imageDark: 'url("./img/portfoliomockup.png")',
     repoLink: 'https://github.com/adrianqe/portfolio',
   },
 ];
