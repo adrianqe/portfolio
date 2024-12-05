@@ -102,26 +102,7 @@ export default function AppAppBar() {
             >
               <div data-section="portfolio" data-value="name">Portfolio</div>
             </Typography>
-            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-              <Button variant="text" color={activeSection === 'features' ? 'primary' : 'info'} size="small" onClick={() => scrollToSection('projects')}>
-                Projects
-              </Button>
-              <Button variant="text" color={activeSection === 'testimonials' ? 'primary' : 'info'} size="small" onClick={() => scrollToSection('testimonials')}>
-                Testimonials
-              </Button>
-              <Button variant="text" color={activeSection === 'highlights' ? 'primary' : 'info'} size="small" onClick={() => scrollToSection('highlights')}>
-                Highlights
-              </Button>
-              <Button variant="text" color={activeSection === 'pricing' ? 'primary' : 'info'} size="small" onClick={() => scrollToSection('pricing')}>
-                Pricing
-              </Button>
-              <Button variant="text" color={activeSection === 'faq' ? 'primary' : 'info'} size="small" sx={{ minWidth: 0 }} onClick={() => scrollToSection('faq')}>
-                FAQ
-              </Button>
-              <Button variant="text" color={activeSection === 'blog' ? 'primary' : 'info'} size="small" sx={{ minWidth: 0 }} onClick={() => scrollToSection('blog')}>
-                Blog
-              </Button>
-            </Box>
+            
           </Box>
           <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1, alignItems: 'center' }}>
             <IconButton color="primary" variant="text" size="small" onClick={OnClicjGitHub}>

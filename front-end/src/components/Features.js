@@ -32,17 +32,17 @@ const items = [
     icon: <DevicesRoundedIcon />,
     title: (
       <span data-section="features" data-value="title-2">
-        Web platform
+        API Testing
       </span>
     ),
     description: (
       <span data-section="features" data-value="description-2">
-        This item could let users know the product is available on all platforms, such as web, mobile, and desktop.
+        Testing PokeAPI using Postman. This project was created to test the endpoints of the PokeAPI in Cypress.
       </span>
     ),
-    imageLight: 'url("/static/images/templates/templates-images/devices-light.png")',
-    imageDark: 'url("/static/images/templates/templates-images/devices-dark.png")',
-    repoLink: 'https://github.com/adrianqe/WebPlatform',
+    imageLight: 'url("./img/pokeapi-test.png")',
+    imageDark: 'url("./img/pokeapi-test.png")',
+    repoLink: 'https://github.com/adrianqe/poke-api-test',
   },
   {
     icon: <ViewQuiltRoundedIcon />,

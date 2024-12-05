@@ -59,15 +59,7 @@ export default function LandingPage() {
         <div>
           <LogoCollection />
           <Features />
-          <Divider />
-          <Testimonials />
-          <Divider />
-          <Highlights />
-          <Divider />
-          <Pricing />
-          <Divider />
-          <FAQ />
-          <Divider />
+          
           <Footer />
         </div>
       </ThemeProvider>
