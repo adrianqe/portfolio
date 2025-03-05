@@ -13,12 +13,14 @@ import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import ToggleColorMode from './components/ToggleColorMode';
 import getMPTheme from './theme/getMPTheme';
 
+const basePath = window.location.hostname.includes("github.io") ? "/TuRepositorio" : "";
 const changeLanguage = async (language) => {
   try {
-    const requestJSON = await fetch(`/language/${language}.json`);
-    const texts = await requestJSON.json();
+    const requestJSON = await fetch(`${basePath}/language/${language}.json`);
+    if (!requestJSON.ok) throw new Error(`HTTP error! Status: ${requestJSON.status}`);
 
-    document.querySelectorAll('[data-section]').forEach((element) => {
+    const texts = await requestJSON.json();
+    document.querySelectorAll("[data-section]").forEach((element) => {
       const section = element.dataset.section;
       const value = element.dataset.value;
       if (texts[section] && texts[section][value]) {
@@ -29,6 +31,7 @@ const changeLanguage = async (language) => {
     console.error(`Failed to load or apply language file for ${language}:`, error);
   }
 };
+
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   position: 'relative',
@@ -87,7 +90,7 @@ function TemplateFrame({
               size="medium"
               aria-label="Résumé"
               component="a"
-              href={resumeLink} 
+              href={resumeLink}
               target="_blank"
               rel="noopener noreferrer"
               sx={{ display: { xs: 'none', sm: 'flex' } }}
@@ -99,7 +102,7 @@ function TemplateFrame({
               size="small"
               aria-label="Résumé"
               component="a"
-              href={resumeLink} 
+              href={resumeLink}
               target="_blank"
               sx={{ display: { xs: 'auto', sm: 'none' } }}
             >
