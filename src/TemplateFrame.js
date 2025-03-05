@@ -13,7 +13,7 @@ import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import ToggleColorMode from './components/ToggleColorMode';
 import getMPTheme from './theme/getMPTheme';
 
-const basePath = window.location.hostname.includes("github.io") ? "/TuRepositorio" : "";
+const basePath = window.location.hostname.includes("github.io") ? "/portfolio" : "";
 const changeLanguage = async (language) => {
   try {
     const requestJSON = await fetch(`${basePath}/language/${language}.json`);
