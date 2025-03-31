@@ -48,7 +48,7 @@ export default function Hero() {
             variant="h1"
             sx={{
               display: 'flex',
-              flexDirection: { xs: 'column', sm: 'row' },
+              flexDirection: { xs: 'column', sm: 'column' },
               alignItems: 'center',
               fontSize: 'clamp(3rem, 10vw, 3.5rem)',
             }}
@@ -56,7 +56,8 @@ export default function Hero() {
             Adrián&nbsp;Quirós&nbsp;
             <Typography
               component="span"
-              variant="h1"
+              textAlign={{ xs: 'center', sm: 'center' }}
+              variant="h2"
               sx={(theme) => ({
                 fontSize: 'inherit',
                 color: 'primary.main',
@@ -65,22 +66,22 @@ export default function Hero() {
                 }),
               })}
             >
-              <div data-section="profile" data-value="rol">Developer</div>
+              <div data-section="profile" data-value="rol">Information Systems Engineering</div>
             </Typography>
           </Typography>
           <Typography
             sx={{
-              textAlign: 'center',
+              textAlign: 'justify',
               color: 'text.secondary',
               width: { sm: '100%', md: '80%' },
               fontSize: { xs: '0.875rem', sm: '1rem', md: '1.125rem' }, // Ajusta el tamaño según el dispositivo
             }}
           >
             <span data-section="profile" data-value="description">
-            I am a software developer with experience in Web and Mobile development. I'm passionate about technology and love learning new things. I consider myself a proactive, responsible, and committed individual in my work.
+              I am passionate about technology and AI, driven by the ambition to create innovative and impactful solutions. Strong problem-solving skills and a continuous learning mindset. Seeking opportunities to grow and contribute my skills.
             </span>
           </Typography>
-          
+
           <Stack
             direction={{ xs: 'column', sm: 'row' }}
             spacing={1}
@@ -106,9 +107,9 @@ export default function Hero() {
               <div data-section="copyButton" data-value="copy">Copy</div>
             </Button>
           </Stack>
-          
+
         </Stack>
-        
+
       </Container>
     </Box>
   );

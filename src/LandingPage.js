@@ -46,23 +46,18 @@ export default function LandingPage() {
   };
 
   return (
-    <TemplateFrame
-      toggleCustomTheme={toggleCustomTheme}
-      showCustomTheme={showCustomTheme}
-      mode={mode}
-      toggleColorMode={toggleColorMode}
-    >
-      <ThemeProvider theme={showCustomTheme ? MPTheme : defaultTheme}>
-        <CssBaseline enableColorScheme />
-        <AppAppBar />
-        <Hero />
-        <div>
-          <LogoCollection />
-          <Features />
-          
-          <Footer />
-        </div>
-      </ThemeProvider>
-    </TemplateFrame>
+
+    <ThemeProvider theme={showCustomTheme ? MPTheme : defaultTheme}>
+      <CssBaseline enableColorScheme />
+
+      <Hero />
+      <div>
+        <LogoCollection />
+        <Features />
+
+        <Footer />
+      </div>
+    </ThemeProvider>
+
   );
 }
