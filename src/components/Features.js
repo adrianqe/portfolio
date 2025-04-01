@@ -100,6 +100,60 @@ export default function Features() {
           gap: 2,
         }}
       >
+        {/* Vista para dispositivos móviles */}
+        <Box
+          sx={{
+            display: { xs: 'flex', sm: 'none' },
+            flexDirection: 'column',
+            gap: 2,
+            width: '100%',
+          }}
+        >
+          {items.map(({ icon, title, description, imageLight, imageDark, repoLink }, index) => (
+            <Card
+              key={index}
+              variant="outlined"
+              onClick={() => window.open(repoLink, '_blank')}
+              sx={{
+                cursor: 'pointer',
+                '&:hover': {
+                  boxShadow: 3,
+                },
+              }}
+            >
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  p: 2,
+                  gap: 1,
+                }}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  {icon}
+                  <Typography variant="h6">{title}</Typography>
+                </Box>
+                <Typography variant="body2">{description}</Typography>
+                <Box
+                  sx={(theme) => ({
+                    mt: 2,
+                    height: 200,
+                    width: '100%',
+                    backgroundSize: 'contain',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center',
+                    backgroundImage: imageLight,
+                    ...theme.applyStyles('dark', {
+                      backgroundImage: imageDark,
+                    }),
+                  })}
+                />
+              </Box>
+            </Card>
+          ))}
+        </Box>
+
+        {/* Vista para tabletas y desktops */}
         <div>
           <Box
             sx={{
@@ -147,7 +201,6 @@ export default function Features() {
                   ]}
                 >
                   {icon}
-
                   <Typography variant="h6">{title}</Typography>
                   <Typography variant="body2">{description}</Typography>
                 </Box>
@@ -186,9 +239,9 @@ export default function Features() {
               style={
                 items[selectedItemIndex]
                   ? {
-                      '--items-imageLight': items[selectedItemIndex].imageLight,
-                      '--items-imageDark': items[selectedItemIndex].imageDark,
-                    }
+                    '--items-imageLight': items[selectedItemIndex].imageLight,
+                    '--items-imageDark': items[selectedItemIndex].imageDark,
+                  }
                   : {}
               }
             />
