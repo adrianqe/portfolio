@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adrián Quirós Elizondo — Systems &amp; Data Engineering</title>
+<meta name="description" content="Adrián Quirós Elizondo — Systems Information Engineer specializing in data engineering, intelligent automation and data governance.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TOKENS — edit these to re-theme the whole site
+   ============================================================ */
+:root{
+  --ink:#0B2545;
+  --blueprint-deep:#0A2038;
+  --blueprint:#0E2A47;
+  --blueprint-mid:#123A63;
+  --paper:#EEF3F9;
+  --paper-line:#D7E4F2;
+  --line:#6FB1E8;
+  --line-soft:rgba(111,177,232,.35);
+  --accent:#FF6A3D;
+  --accent-ink:#7a2b10;
+  --muted:#5D7A99;
+  --white:#FFFFFF;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --radius:2px;
+  --maxw:1120px;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{
+  font-family:var(--font-display);
+  font-weight:700;
+  margin:0;
+  color:var(--ink);
+  letter-spacing:.01em;
+}
+a{color:inherit;}
+img{max-width:100%; display:block;}
+button{font-family:inherit;}
+
+::selection{background:var(--accent); color:var(--white);}
+
+:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+}
+
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
+
+/* subtle blueprint grid paper texture */
+.grid-bg{
+  background-image:
+    linear-gradient(var(--paper-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
+  background-size:34px 34px;
+  background-position:-1px -1px;
+}
+.grid-bg-dark{
+  background-image:
+    linear-gradient(rgba(111,177,232,.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(111,177,232,.14) 1px, transparent 1px);
+  background-size:34px 34px;
+  background-position:-1px -1px;
+}
+
+/* sheet label — eyebrow styled like a drawing-sheet index, thematically real */
+.sheet-label{
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:18px;
+}
+.sheet-label::before{
+  content:"";
+  width:26px; height:1px;
+  background:var(--line);
+  display:inline-block;
+}
+.sheet-label .num{color:var(--accent); font-weight:600;}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+header.nav{
+  position:sticky; top:0; z-index:50;
+  background:rgba(238,243,249,.92);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--paper-line);
+}
+.nav-inner{
+  max-width:var(--maxw); margin:0 auto; padding:14px 28px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.nav-mark{
+  font-family:var(--font-mono); font-weight:600; font-size:14px;
+  letter-spacing:.05em; display:flex; align-items:center; gap:8px;
+}
+.nav-mark .dot{width:7px; height:7px; background:var(--accent); border-radius:50%; display:inline-block;}
+.nav-links{display:flex; gap:26px; list-style:none; margin:0; padding:0; font-family:var(--font-mono); font-size:13px;}
+.nav-links a{text-decoration:none; color:var(--muted); transition:color .15s;}
+.nav-links a:hover{color:var(--accent);}
+.nav-toggle{display:none; background:none; border:1px solid var(--paper-line); border-radius:var(--radius); padding:8px 10px; cursor:pointer;}
+.nav-toggle span,.nav-toggle span::before,.nav-toggle span::after{
+  content:""; display:block; width:18px; height:2px; background:var(--ink); position:relative; transition:.2s;
+}
+.nav-toggle span::before{position:absolute; top:-6px;}
+.nav-toggle span::after{position:absolute; top:6px;}
+
+@media (max-width:760px){
+  .nav-links{
+    position:fixed; top:57px; left:0; right:0; background:var(--paper);
+    flex-direction:column; padding:18px 28px; gap:16px;
+    border-bottom:1px solid var(--paper-line);
+    transform:translateY(-140%); transition:transform .25s ease;
+  }
+  .nav-links.open{transform:translateY(0);}
+  .nav-toggle{display:block;}
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  background:var(--blueprint-deep);
+  color:var(--white);
+  position:relative;
+  overflow:hidden;
+  padding:72px 0 88px;
+}
+.hero .wrap{position:relative; z-index:2;}
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:48px;
+  align-items:center;
+}
+@media (max-width:860px){
+  .hero-grid{grid-template-columns:1fr; gap:40px;}
+}
+.hero .sheet-label{color:var(--line);}
+.hero .sheet-label::before{background:var(--line);}
+.hero h1{
+  font-size:clamp(2.4rem, 5vw, 3.6rem);
+  line-height:1.05;
+  color:var(--white);
+}
+.hero h1 .accent{color:var(--accent);}
+.hero .role{
+  font-family:var(--font-mono);
+  font-size:15px;
+  color:var(--line);
+  margin-top:18px;
+  letter-spacing:.02em;
+}
+.hero p.lede{
+  margin-top:20px;
+  max-width:52ch;
+  color:#C9DCEE;
+  font-size:16.5px;
+}
+.hero-cta{display:flex; flex-wrap:wrap; gap:12px; margin-top:32px;}
+.btn{
+  font-family:var(--font-mono);
+  font-size:13px;
+  letter-spacing:.03em;
+  text-decoration:none;
+  padding:12px 20px;
+  border-radius:var(--radius);
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  border:1px solid transparent;
+  cursor:pointer;
+  transition:transform .15s ease, background .15s ease, border-color .15s ease;
+}
+.btn:hover{transform:translateY(-1px);}
+.btn-solid{background:var(--accent); color:var(--white);}
+.btn-solid:hover{background:#ff7d54;}
+.btn-outline{border-color:rgba(255,255,255,.35); color:var(--white);}
+.btn-outline:hover{border-color:var(--line); background:rgba(111,177,232,.08);}
+
+.hero-photo-wrap{
+  position:relative;
+  justify-self:center;
+}
+.hero-photo{
+  width:240px; height:320px;
+  object-fit:cover;
+  border:1px solid rgba(111,177,232,.5);
+  border-radius:2px;
+  filter:grayscale(.15) contrast(1.02);
+  background:var(--blueprint-mid);
+}
+.hero-photo-tag{
+  position:absolute; bottom:-14px; left:-14px;
+  background:var(--blueprint-mid);
+  border:1px solid var(--line-soft);
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--line);
+  padding:6px 10px;
+  letter-spacing:.05em;
+}
+.corner-tick{position:absolute; width:14px; height:14px; border-color:var(--line); opacity:.7;}
+.ct-tl{top:-8px; left:-8px; border-top:1px solid; border-left:1px solid;}
+.ct-br{bottom:-8px; right:-8px; border-bottom:1px solid; border-right:1px solid;}
+
+/* schematic diagram — signature element */
+.schematic{width:100%; height:auto; margin-top:56px; display:block;}
+.schematic .node-circle{fill:var(--blueprint-deep); stroke:var(--line); stroke-width:1.5;}
+.schematic .node-label{font-family:'IBM Plex Mono', monospace; font-size:11px; fill:var(--line); letter-spacing:.04em;}
+.schematic .node-sub{font-family:'IBM Plex Mono', monospace; font-size:9px; fill:#7f9fbd;}
+.schematic .flow-line{
+  fill:none; stroke:var(--line); stroke-width:1.4;
+  stroke-dasharray:600;
+  stroke-dashoffset:600;
+  animation:draw 2.6s ease forwards .3s;
+}
+.schematic .flow-arrow{fill:var(--line);}
+@keyframes draw{to{stroke-dashoffset:0;}}
+
+/* ============================================================
+   SECTION SHELL
+   ============================================================ */
+section{padding:84px 0;}
+section.alt{background:var(--white); border-top:1px solid var(--paper-line); border-bottom:1px solid var(--paper-line);}
+.section-head{margin-bottom:44px; max-width:640px;}
+.section-head h2{font-size:clamp(1.7rem,3vw,2.2rem);}
+.section-head p{color:var(--muted); margin-top:10px; font-size:15.5px;}
+
+.reveal{opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease;}
+.reveal.in{opacity:1; transform:translateY(0);}
+
+/* ============================================================
+   ABOUT
+   ============================================================ */
+.about-grid{display:grid; grid-template-columns:1.4fr 1fr; gap:56px;}
+@media (max-width:820px){.about-grid{grid-template-columns:1fr;}}
+.about-grid p{margin:0 0 16px; color:#2b3d52; font-size:16px;}
+.spec-table{
+  font-family:var(--font-mono);
+  font-size:13px;
+  border-top:1px solid var(--paper-line);
+}
+.spec-row{
+  display:flex; justify-content:space-between; gap:16px;
+  padding:12px 0; border-bottom:1px solid var(--paper-line);
+}
+.spec-row dt{color:var(--muted); letter-spacing:.03em;}
+.spec-row dd{margin:0; text-align:right; font-weight:500;}
+
+/* ============================================================
+   EXPERIENCE — blueprint sheet cards along a spine
+   ============================================================ */
+.timeline{position:relative; padding-left:26px; border-left:1px solid var(--paper-line);}
+.tl-item{position:relative; padding-bottom:48px;}
+.tl-item:last-child{padding-bottom:0;}
+.tl-dot{
+  position:absolute; left:-31px; top:4px;
+  width:9px; height:9px; border-radius:50%;
+  background:var(--paper); border:2px solid var(--accent);
+}
+.tl-card{
+  background:var(--white);
+  border:1px solid var(--paper-line);
+  border-radius:var(--radius);
+  padding:26px 28px;
+}
+.tl-head{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:8px; margin-bottom:4px;}
+.tl-role{font-family:var(--font-display); font-weight:700; font-size:19px;}
+.tl-date{font-family:var(--font-mono); font-size:12.5px; color:var(--accent); white-space:nowrap;}
+.tl-org{font-family:var(--font-mono); font-size:13px; color:var(--muted); margin-bottom:14px;}
+.tl-list{margin:0; padding-left:18px; color:#2b3d52; font-size:15px;}
+.tl-list li{margin-bottom:8px;}
+.tl-list li:last-child{margin-bottom:0;}
+
+/* ============================================================
+   SKILLS — legend / spec sheet style
+   ============================================================ */
+.skills-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(230px,1fr)); gap:28px;}
+.skill-card{
+  border:1px solid var(--paper-line);
+  background:var(--white);
+  padding:22px 22px 18px;
+  border-radius:var(--radius);
+}
+.skill-card h3{
+  font-family:var(--font-mono); font-size:12.5px;
+  text-transform:uppercase; letter-spacing:.08em;
+  color:var(--accent); margin-bottom:14px;
+  display:flex; align-items:center; gap:8px;
+}
+.skill-card h3::before{content:""; width:8px; height:8px; border:1.5px solid var(--accent); display:inline-block;}
+.skill-tags{display:flex; flex-wrap:wrap; gap:8px;}
+.tag{
+  font-family:var(--font-mono); font-size:12px;
+  border:1px solid var(--paper-line);
+  padding:5px 9px; color:var(--ink);
+  background:var(--paper);
+}
+
+/* ============================================================
+   PROJECTS
+   ============================================================ */
+.projects-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:26px;}
+.proj-card{
+  border:1px solid var(--paper-line);
+  background:var(--white);
+  display:flex; flex-direction:column;
+  overflow:hidden;
+  transition:border-color .15s, transform .15s;
+}
+.proj-card:hover{border-color:var(--line); transform:translateY(-3px);}
+.proj-thumb{
+  aspect-ratio:16/10;
+  background:var(--blueprint-deep);
+  position:relative;
+  overflow:hidden;
+}
+.proj-thumb svg{width:100%; height:100%;}
+.proj-thumb img{width:100%; height:100%; object-fit:cover;}
+.proj-body{padding:20px 22px 24px; display:flex; flex-direction:column; flex:1;}
+.proj-tag{font-family:var(--font-mono); font-size:11px; color:var(--accent); letter-spacing:.06em; text-transform:uppercase; margin-bottom:8px;}
+.proj-body h3{font-size:18px; margin-bottom:8px;}
+.proj-body p{color:var(--muted); font-size:14.5px; flex:1; margin:0 0 16px;}
+.proj-stack{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px;}
+.proj-stack span{font-family:var(--font-mono); font-size:11px; color:var(--muted); border:1px solid var(--paper-line); padding:3px 7px;}
+.proj-link{
+  font-family:var(--font-mono); font-size:13px; color:var(--ink);
+  text-decoration:none; display:inline-flex; align-items:center; gap:6px;
+}
+.proj-link:hover{color:var(--accent);}
+.proj-link svg{width:13px; height:13px;}
+
+/* ============================================================
+   EDUCATION / CERTS
+   ============================================================ */
+.edu-grid{display:grid; grid-template-columns:1fr 1fr; gap:44px;}
+@media (max-width:760px){.edu-grid{grid-template-columns:1fr;}}
+.edu-block h3{font-size:16px; margin-bottom:16px; font-family:var(--font-mono); text-transform:uppercase; letter-spacing:.07em; color:var(--muted);}
+.cert-list{list-style:none; margin:0; padding:0;}
+.cert-list li{
+  padding:13px 0; border-bottom:1px solid var(--paper-line);
+  display:flex; justify-content:space-between; gap:14px; font-size:14.5px;
+}
+.cert-list li span.yr{font-family:var(--font-mono); font-size:12.5px; color:var(--accent); white-space:nowrap;}
+.degree-card{border:1px solid var(--paper-line); background:var(--white); padding:24px;}
+.degree-card h4{font-size:19px; margin-bottom:6px;}
+.degree-card .meta{font-family:var(--font-mono); font-size:12.5px; color:var(--muted); margin-bottom:14px;}
+.degree-card p{margin:0; font-size:14.5px; color:#2b3d52;}
+
+/* ============================================================
+   CONTACT / FOOTER
+   ============================================================ */
+footer.contact{
+  background:var(--blueprint-deep); color:var(--white); padding:80px 0 40px;
+}
+.contact-inner{text-align:center; max-width:600px; margin:0 auto;}
+.contact-inner .sheet-label{justify-content:center; color:var(--line);}
+.contact-inner .sheet-label::before{display:none;}
+.contact-inner h2{color:var(--white); font-size:clamp(1.8rem,4vw,2.6rem); margin-bottom:16px;}
+.contact-inner p{color:#B8CCE2; margin-bottom:32px;}
+.contact-links{display:flex; flex-wrap:wrap; justify-content:center; gap:14px;}
+.foot-bottom{
+  margin-top:70px; padding-top:24px; border-top:1px solid rgba(111,177,232,.18);
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  font-family:var(--font-mono); font-size:12px; color:#7f9fbd;
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="nav-mark"><span class="dot"></span>A. QUIRÓS ELIZONDO</div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false"><span></span></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero grid-bg-dark">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="sheet-label"><span class="num">SHEET 01/05</span> — PROFILE</div>
+        <h1>Systems that govern<br>and automate <span class="accent">data</span>.</h1>
+        <div class="role" id="heroRole"></div>
+        <p class="lede">Systems Information Engineer building the pipeline between messy enterprise processes and reliable, well-governed data. From workflow automation to hands-on data engineering projects.</p>
+        <div class="hero-cta">
+          <a class="btn btn-solid" href="mailto:ajquirose05@gmail.com">Email me</a>
+          <a class="btn btn-outline" href="https://www.linkedin.com/in/adrian-quiros-elizondo-639906300/" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a class="btn btn-outline" href="https://github.com/adrianqe" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+      <div class="hero-photo-wrap">
+        <div class="corner-tick ct-tl"></div>
+        <img class="hero-photo" src="assets/adrian-photo.jpg" alt="Portrait of Adrián Quirós Elizondo">
+        <div class="corner-tick ct-br"></div>
+        <div class="hero-photo-tag">FIG. 01 — A. QUIRÓS</div>
+      </div>
+    </div>
+
+    <svg class="schematic" viewBox="0 0 1000 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Career workflow diagram: Requirements, Automate, Govern, Engineer">
+      <path class="flow-line" d="M 95 75 H 320" />
+      <path class="flow-line" d="M 415 75 H 640" style="animation-delay:.6s"/>
+      <path class="flow-line" d="M 735 75 H 905" style="animation-delay:.9s"/>
+      <polygon class="flow-arrow" points="320,70 320,80 332,75"/>
+      <polygon class="flow-arrow" points="640,70 640,80 652,75"/>
+      <polygon class="flow-arrow" points="905,70 905,80 917,75"/>
+
+      <circle class="node-circle" cx="50" cy="75" r="45"/>
+      <text class="node-label" x="50" y="72" text-anchor="middle">REQUIRE-</text>
+      <text class="node-label" x="50" y="86" text-anchor="middle">MENTS</text>
+      <text class="node-sub" x="50" y="135" text-anchor="middle">Business analysis</text>
+
+      <circle class="node-circle" cx="375" cy="75" r="45"/>
+      <text class="node-label" x="375" y="79" text-anchor="middle">AUTOMATE</text>
+      <text class="node-sub" x="375" y="135" text-anchor="middle">Power Automate · UiPath</text>
+
+      <circle class="node-circle" cx="690" cy="75" r="45"/>
+      <text class="node-label" x="690" y="79" text-anchor="middle">GOVERN</text>
+      <text class="node-sub" x="690" y="135" text-anchor="middle">Purview · Fabric · Databricks</text>
+
+      <circle class="node-circle" cx="960" cy="75" r="45" stroke="#FF6A3D"/>
+      <text class="node-label" x="960" y="79" text-anchor="middle" fill="#FF6A3D">ENGINEER</text>
+      <text class="node-sub" x="960" y="135" text-anchor="middle">Data · AI/ML — next</text>
+    </svg>
+  </div>
+</section>
+
+<!-- ============================================================
+     ABOUT
+     ============================================================ -->
+<section id="about">
+  <div class="wrap">
+    <div class="sheet-label"><span class="num">SHEET 02/05</span> — ABOUT</div>
+    <div class="about-grid reveal">
+      <div>
+        <h2 style="margin-bottom:18px;">From process to platform.</h2>
+        <p>I'm a Systems Information Engineering graduate (Universidad Latina de Costa Rica, GPA 92.3/100) who spent eight months inside Emerson's global operations learning how large organizations actually move data: first by redesigning and automating their workflows, then by governing the data those workflows produced.</p>
+        <p>That path — analyst → automation → governance — is pointing me toward data engineering and applied AI/ML, where I want to build the pipelines and systems that make good data possible in the first place, not just report on it after the fact.</p>
+        <p>Outside of work: I train outdoors on the hills around Naranjo, tinker with self-hosted servers and modded Minecraft infrastructure, and I'm the kind of person who reads a car's mechanicals the way other people read a book.</p>
+      </div>
+      <dl class="spec-table">
+        <div class="spec-row"><dt>Based in</dt><dd>Alajuela, Costa Rica</dd></div>
+        <div class="spec-row"><dt>Focus</dt><dd>Data Engineering / AI-ML</dd></div>
+        <div class="spec-row"><dt>Also open to</dt><dd>Data Governance · Automation · QA</dd></div>
+        <div class="spec-row"><dt>Languages</dt><dd>Spanish (native) · English (B2+)</dd></div>
+        <div class="spec-row"><dt>Work mode</dt><dd>Hybrid preferred</dd></div>
+        <div class="spec-row"><dt>Contact</dt><dd>ajquirose05@gmail.com</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EXPERIENCE
+     ============================================================ -->
+<section id="experience" class="alt grid-bg">
+  <div class="wrap">
+    <div class="sheet-label"><span class="num">SHEET 03/05</span> — EXPERIENCE</div>
+    <div class="section-head reveal">
+      <h2>Work experience</h2>
+      <p>Eight months inside a Fortune 500 operation — first redesigning how work flows, then governing the data behind it.</p>
+    </div>
+    <div class="timeline reveal" id="experienceTimeline"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SKILLS
+     ============================================================ -->
+<section id="skills">
+  <div class="wrap">
+    <div class="sheet-label"><span class="num">SHEET 03/05</span> — CAPABILITIES</div>
+    <div class="section-head reveal">
+      <h2>Technical toolkit</h2>
+      <p>Grouped by where I use it, not just what it is.</p>
+    </div>
+    <div class="skills-grid reveal" id="skillsGrid"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROJECTS
+     ============================================================ -->
+<section id="projects" class="alt grid-bg">
+  <div class="wrap">
+    <div class="sheet-label"><span class="num">SHEET 04/05</span> — PROJECTS</div>
+    <div class="section-head reveal">
+      <h2>Selected projects</h2>
+      <p>A mix of applied ML, automated testing, and full-stack builds — pulled straight from <a href="https://github.com/adrianqe" target="_blank" rel="noopener" style="color:var(--accent); text-decoration:none;">github.com/adrianqe</a>.</p>
+    </div>
+    <div class="projects-grid reveal" id="projectsGrid"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EDUCATION / CERTS
+     ============================================================ -->
+<section id="education">
+  <div class="wrap">
+    <div class="sheet-label"><span class="num">SHEET 05/05</span> — EDUCATION &amp; CERTIFICATIONS</div>
+    <div class="edu-grid reveal">
+      <div class="edu-block">
+        <h3>Degree</h3>
+        <div class="degree-card">
+          <h4>B.Sc. Systems Information Engineering</h4>
+          <div class="meta">Universidad Latina de Costa Rica · Graduating Aug 2026 · GPA 92.3/100</div>
+          <p>Thesis: Federated Data Governance Model (Emerson MSOL). Relevant coursework: AI, Data Analysis, Probability &amp; Statistics, OOP, Systems Design.</p>
+        </div>
+      </div>
+      <div class="edu-block">
+        <h3>Certifications</h3>
+        <ul class="cert-list" id="certList"></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACT / FOOTER
+     ============================================================ -->
+<footer class="contact grid-bg-dark" id="contact">
+  <div class="wrap contact-inner">
+    <div class="sheet-label">END OF SET</div>
+    <h2>Let's build something.</h2>
+    <p>Open to Data Engineering, AI/ML, Data Governance, Intelligent Automation, and QA roles — hybrid preferred, based in Costa Rica.</p>
+    <div class="contact-links">
+      <a class="btn btn-solid" href="mailto:ajquirose05@gmail.com">ajquirose05@gmail.com</a>
+      <a class="btn btn-outline" href="https://www.linkedin.com/in/adrian-quiros-elizondo-639906300/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="btn btn-outline" href="https://github.com/adrianqe" target="_blank" rel="noopener">GitHub ↗</a>
+      <a class="btn btn-outline" href="tel:+50684940471">+506 8494-0471</a>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="year"></span> Adrián Quirós Elizondo</span>
+      <span>Alajuela, Costa Rica</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ================================================================
+   CONTENT DATA
+   Edit anything below to update the site. No build step required —
+   just save this file and refresh (or push to GitHub Pages).
+   ================================================================ */
+
+const EXPERIENCE = [
+  {
+    role: "Data Governance Intern",
+    org: "Emerson (Fortune 500) · San José, CR",
+    date: "Jan 2026 – Apr 2026",
+    bullets: [
+      "Led a Microsoft 365 Copilot Proof of Value project: interviewed VPs, Directors, and Managers to translate business requirements into functional workflow agents using Copilot Studio.",
+      "Architected data governance protocols, data catalogs, and lineage frameworks across enterprise platforms (Azure Databricks, Microsoft Fabric, Oracle).",
+      "Delivered adoption metrics and strategic presentations to senior leadership, facilitating training and knowledge transfer across business units.",
+      "Configured Microsoft Purview for asset scanning and metadata management within cloud tenant environments."
+    ]
+  },
+  {
+    role: "Intelligent Automation Intern",
+    org: "Emerson (Fortune 500) · San José, CR",
+    date: "Sep 2025 – Dec 2025",
+    bullets: [
+      "Acted as Business Analyst for process redesign: gathered functional requirements, identified inefficiencies, created UI/UX mockups in Figma, and presented solutions to global stakeholders.",
+      "Designed, configured, tested, and deployed end-to-end cloud workflow solutions using Power Automate (Cloud &amp; Desktop) and UiPath, improving operational throughput.",
+      "Managed CI/CD pipelines across DEV, UAT, and PROD environments using Azure DevOps, enforcing governance and version control standards.",
+      "Built an Executive Automation Tracking Dashboard (Power Automate + Dataverse) with real-time KPIs on workflow executions, error rates, and volume.",
+      "Provided Tier-2 functional and technical support via ServiceNow: root cause analysis, defect diagnosis, fixes, and traceability documentation."
+    ]
+  }
+];
+
+const SKILLS = [
+  {
+    group: "Data & Cloud Platforms",
+    tags: ["Azure Databricks", "Microsoft Fabric", "Microsoft Purview", "Snowflake", "Oracle", "SAP", "Dataverse"]
+  },
+  {
+    group: "Automation & Workflow",
+    tags: ["Power Automate", "UiPath", "Azure DevOps", "ServiceNow"]
+  },
+  {
+    group: "Languages & Frameworks",
+    tags: ["Python", "SQL", "C#", "JavaScript", ".NET MAUI", "ASP.NET Core"]
+  },
+  {
+    group: "QA & Testing",
+    tags: ["Cypress", "API Testing", "UAT", "Defect RCA"]
+  }
+];
+
+const PROJECTS = [
+  {
+    tag: "Machine Learning",
+    title: "Facial Emotion Recognition CNN",
+    desc: "Three iterations of a CNN trained with TensorFlow/Keras to classify facial emotion from webcam input, reaching 73.78% accuracy. Deployed with a Flask + Gunicorn backend, model hosted on Hugging Face Hub.",
+    stack: ["TensorFlow", "Keras", "Flask", "OpenCV"],
+    url: "https://huggingface.co/adrianqe",
+    linkLabel: "View on Hugging Face",
+    thumb: "cnn"
+  },
+  {
+    tag: "Mobile App",
+    title: "NutriApp — Food Scanner",
+    desc: "Mobile app that scans food products and returns nutritional information, built with .NET MAUI on the front end and an ASP.NET Core API on the back end.",
+    stack: [".NET MAUI", "ASP.NET Core", "C#"],
+    url: "https://github.com/adrianqe/NutriApp",
+    linkLabel: "View on GitHub",
+    thumb: "app"
+  },
+  {
+    tag: "QA Automation",
+    title: "PokeAPI Test Suite",
+    desc: "Automated API test suite built with Cypress against the public PokeAPI, covering request validation, response schemas, and edge cases.",
+    stack: ["Cypress", "JavaScript", "API Testing"],
+    url: "https://github.com/adrianqe/poke-api-test",
+    linkLabel: "View on GitHub",
+    thumb: "test"
+  },
+  {
+    tag: "Web Project",
+    title: "NASA Project Management Site",
+    desc: "Educational web project simulating a NASA project-management tool — structuring project data, timelines, and status tracking in a browser-based interface.",
+    stack: ["HTML", "CSS", "JavaScript"],
+    url: "https://github.com/adrianqe/NASA-Web-Project",
+    linkLabel: "View on GitHub",
+    thumb: "nasa"
+  }
+];
+
+const CERTIFICATIONS = [
+  { name: "Associate Data Engineer in Snowflake — DataCamp", year: "2026" },
+  { name: "Data Governance Fundamentals — DataCamp", year: "2026" },
+  { name: "Process Automation with RPA (UiPath) — Udemy", year: "2025" },
+  { name: "Business Intelligence Foundation Professional Certificate — Certiprof", year: "2025" },
+  { name: "Scrum Fundamentals Professional Certificate — Certiprof", year: "2024" },
+  { name: "Foundations of Innovation — Arizona State University", year: "2024" },
+  { name: "CCNA 1–2 — Cisco Networking Academy", year: "" }
+];
+
+const ROLE_STRINGS = [
+  "Systems Information Engineer",
+  "Data Governance · Intelligent Automation",
+  "Aspiring Data / AI-ML Engineer"
+];
+
+/* ================================================================
+   RENDER — you shouldn't need to touch anything below this line
+   ================================================================ */
+
+// Experience timeline
+const tl = document.getElementById('experienceTimeline');
+EXPERIENCE.forEach(item => {
+  const el = document.createElement('div');
+  el.className = 'tl-item';
+  el.innerHTML = `
+    <div class="tl-dot"></div>
+    <div class="tl-card">
+      <div class="tl-head">
+        <div class="tl-role">${item.role}</div>
+        <div class="tl-date">${item.date}</div>
+      </div>
+      <div class="tl-org">${item.org}</div>
+      <ul class="tl-list">${item.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
+    </div>`;
+  tl.appendChild(el);
+});
+
+// Skills
+const sg = document.getElementById('skillsGrid');
+SKILLS.forEach(group => {
+  const el = document.createElement('div');
+  el.className = 'skill-card';
+  el.innerHTML = `
+    <h3>${group.group}</h3>
+    <div class="skill-tags">${group.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>`;
+  sg.appendChild(el);
+});
+
+// Project thumbnail SVGs (blueprint-style icon per project — swap for a real
+// screenshot any time by setting a `thumbImage: "assets/your-file.png"` key
+// on the project and it will be used instead of the generated icon)
+const THUMBS = {
+  cnn: `<svg viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="190" fill="#0A2038"/><g stroke="#6FB1E8" stroke-width="1" fill="none" opacity="0.9"><circle cx="70" cy="60" r="8"/><circle cx="70" cy="95" r="8"/><circle cx="70" cy="130" r="8"/><circle cx="150" cy="45" r="8"/><circle cx="150" cy="80" r="8"/><circle cx="150" cy="115" r="8"/><circle cx="150" cy="150" r="8"/><circle cx="230" cy="70" r="8"/><circle cx="230" cy="110" r="8"/><path d="M78 60 L142 45 M78 60 L142 80 M78 95 L142 45 M78 95 L142 80 M78 95 L142 115 M78 130 L142 80 M78 130 L142 115 M78 130 L142 150 M158 45 L222 70 M158 80 L222 70 M158 80 L222 110 M158 115 L222 70 M158 115 L222 110 M158 150 L222 110"/></g></svg>`,
+  app: `<svg viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="190" fill="#0A2038"/><g stroke="#6FB1E8" stroke-width="1.3" fill="none"><rect x="118" y="20" width="64" height="150" rx="8"/><line x1="118" y1="40" x2="182" y2="40"/><line x1="118" y1="150" x2="182" y2="150"/><circle cx="150" cy="160" r="4"/><path d="M132 70 h36 M132 85 h36 M132 100 h24" stroke-dasharray="2 3"/></g></svg>`,
+  test: `<svg viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="190" fill="#0A2038"/><g stroke="#6FB1E8" stroke-width="1.3" fill="none"><rect x="60" y="35" width="180" height="120" rx="3"/><line x1="60" y1="55" x2="240" y2="55"/><circle cx="75" cy="45" r="2.5" fill="#6FB1E8"/><circle cx="86" cy="45" r="2.5" fill="#6FB1E8"/><path d="M85 95 l15 15 l30 -30" stroke="#FF6A3D" stroke-width="2"/><line x1="150" y1="105" x2="215" y2="105"/><path d="M85 130 l15 15 l30 -30" stroke="#FF6A3D" stroke-width="2"/><line x1="150" y1="140" x2="200" y2="140"/></g></svg>`,
+  nasa: `<svg viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="190" fill="#0A2038"/><g stroke="#6FB1E8" stroke-width="1.2" fill="none"><ellipse cx="150" cy="95" rx="95" ry="34"/><ellipse cx="150" cy="95" rx="95" ry="34" transform="rotate(60 150 95)"/><ellipse cx="150" cy="95" rx="95" ry="34" transform="rotate(120 150 95)"/><circle cx="150" cy="95" r="14" fill="#0A2038" stroke="#FF6A3D"/></g></svg>`
+};
+
+const pg = document.getElementById('projectsGrid');
+PROJECTS.forEach(p => {
+  const el = document.createElement('div');
+  el.className = 'proj-card';
+  const thumbContent = p.thumbImage
+    ? `<img src="${p.thumbImage}" alt="${p.title} screenshot">`
+    : (THUMBS[p.thumb] || '');
+  const linkHtml = p.url
+    ? `<a class="proj-link" href="${p.url}" target="_blank" rel="noopener">${p.linkLabel || 'View project'}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </a>`
+    : '';
+  el.innerHTML = `
+    <div class="proj-thumb">${thumbContent}</div>
+    <div class="proj-body">
+      <div class="proj-tag">${p.tag}</div>
+      <h3>${p.title}</h3>
+      <p>${p.desc}</p>
+      <div class="proj-stack">${p.stack.map(s => `<span>${s}</span>`).join('')}</div>
+      ${linkHtml}
+    </div>`;
+  pg.appendChild(el);
+});
+
+// Certifications
+const cl = document.getElementById('certList');
+CERTIFICATIONS.forEach(c => {
+  const li = document.createElement('li');
+  li.innerHTML = `<span>${c.name}</span>${c.year ? `<span class="yr">${c.year}</span>` : ''}`;
+  cl.appendChild(li);
+});
+
+// Rotating role string in hero
+const roleEl = document.getElementById('heroRole');
+let roleIdx = 0;
+function typeRole(){
+  roleEl.textContent = '// ' + ROLE_STRINGS[roleIdx];
+  roleIdx = (roleIdx + 1) % ROLE_STRINGS.length;
+}
+typeRole();
+setInterval(typeRole, 3200);
+
+// Year
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// Nav toggle (mobile)
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+navToggle.addEventListener('click', () => {
+  const open = navLinks.classList.toggle('open');
+  navToggle.setAttribute('aria-expanded', open);
+});
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  navLinks.classList.remove('open');
+  navToggle.setAttribute('aria-expanded', false);
+}));
+
+// Scroll reveal
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
