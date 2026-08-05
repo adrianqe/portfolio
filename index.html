@@ -323,10 +323,9 @@ section.alt{background:var(--white); border-top:1px solid var(--paper-line); bor
   padding:5px 9px; color:var(--ink);
   background:var(--paper);
 }
-
 /* ============================================================
-   PROJECTS
-   ============================================================ */
+    PROJECTS
+============================================================ */
 .projects-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:26px;}
 .proj-card{
   border:1px solid var(--paper-line);
@@ -358,7 +357,7 @@ section.alt{background:var(--white); border-top:1px solid var(--paper-line); bor
 .proj-link svg{width:13px; height:13px;}
 
 /* ============================================================
-   EDUCATION / CERTS
+ EDUCATION / CERTS
    ============================================================ */
 .edu-grid{display:grid; grid-template-columns:1fr 1fr; gap:44px;}
 @media (max-width:760px){.edu-grid{grid-template-columns:1fr;}}
@@ -374,9 +373,9 @@ section.alt{background:var(--white); border-top:1px solid var(--paper-line); bor
 .degree-card .meta{font-family:var(--font-mono); font-size:12.5px; color:var(--muted); margin-bottom:14px;}
 .degree-card p{margin:0; font-size:14.5px; color:#2b3d52;}
 
-/* ============================================================
-   CONTACT / FOOTER
-   ============================================================ */
+
+ CONTACT / FOOTER
+   
 footer.contact{
   background:var(--blueprint-deep); color:var(--white); padding:80px 0 40px;
 }
@@ -409,9 +408,9 @@ footer.contact{
   </div>
 </header>
 
-<!-- ============================================================
-     HERO
-     ============================================================ -->
+
+// HERO
+     
 <section class="hero grid-bg-dark">
   <div class="wrap">
     <div class="hero-grid">
@@ -462,9 +461,8 @@ footer.contact{
   </div>
 </section>
 
-<!-- ============================================================
-     ABOUT
-     ============================================================ -->
+// ABOUT
+
 <section id="about">
   <div class="wrap">
     <div class="sheet-label"><span class="num">SHEET 02/05</span> — ABOUT</div>
@@ -487,9 +485,9 @@ footer.contact{
   </div>
 </section>
 
-<!-- ============================================================
-     EXPERIENCE
-     ============================================================ -->
+
+// EXPERIENCE
+     
 <section id="experience" class="alt grid-bg">
   <div class="wrap">
     <div class="sheet-label"><span class="num">SHEET 03/05</span> — EXPERIENCE</div>
@@ -501,9 +499,8 @@ footer.contact{
   </div>
 </section>
 
-<!-- ============================================================
-     SKILLS
-     ============================================================ -->
+
+// SKILLS
 <section id="skills">
   <div class="wrap">
     <div class="sheet-label"><span class="num">SHEET 03/05</span> — CAPABILITIES</div>
@@ -515,9 +512,8 @@ footer.contact{
   </div>
 </section>
 
-<!-- ============================================================
-     PROJECTS
-     ============================================================ -->
+// PROJECTS
+     
 <section id="projects" class="alt grid-bg">
   <div class="wrap">
     <div class="sheet-label"><span class="num">SHEET 04/05</span> — PROJECTS</div>
@@ -529,9 +525,7 @@ footer.contact{
   </div>
 </section>
 
-<!-- ============================================================
-     EDUCATION / CERTS
-     ============================================================ -->
+// EDUCATION / CERTS
 <section id="education">
   <div class="wrap">
     <div class="sheet-label"><span class="num">SHEET 05/05</span> — EDUCATION &amp; CERTIFICATIONS</div>
@@ -540,7 +534,7 @@ footer.contact{
         <h3>Degree</h3>
         <div class="degree-card">
           <h4>B.Sc. Systems Information Engineering</h4>
-          <div class="meta">Universidad Latina de Costa Rica · Graduating Aug 2026 · GPA 92.3/100</div>
+          <div class="meta">Universidad Latina de Costa Rica · Graduating Aug 2026</div>
           <p>Thesis: Federated Data Governance Model (Emerson MSOL). Relevant coursework: AI, Data Analysis, Probability &amp; Statistics, OOP, Systems Design.</p>
         </div>
       </div>
@@ -552,9 +546,9 @@ footer.contact{
   </div>
 </section>
 
-<!-- ============================================================
-     CONTACT / FOOTER
-     ============================================================ -->
+// CONTACT / FOOTER
+
+     
 <footer class="contact grid-bg-dark" id="contact">
   <div class="wrap contact-inner">
     <div class="sheet-label">END OF SET</div>
@@ -574,11 +568,6 @@ footer.contact{
 </footer>
 
 <script>
-/* ================================================================
-   CONTENT DATA
-   Edit anything below to update the site. No build step required —
-   just save this file and refresh (or push to GitHub Pages).
-   ================================================================ */
 
 const EXPERIENCE = [
   {
@@ -680,9 +669,6 @@ const ROLE_STRINGS = [
   "Aspiring Data / AI-ML Engineer"
 ];
 
-/* ================================================================
-   RENDER — you shouldn't need to touch anything below this line
-   ================================================================ */
 
 // Experience timeline
 const tl = document.getElementById('experienceTimeline');
@@ -713,9 +699,7 @@ SKILLS.forEach(group => {
   sg.appendChild(el);
 });
 
-// Project thumbnail SVGs (blueprint-style icon per project — swap for a real
-// screenshot any time by setting a `thumbImage: "assets/your-file.png"` key
-// on the project and it will be used instead of the generated icon)
+
 const THUMBS = {
   cnn: `<svg viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="190" fill="#0A2038"/><g stroke="#6FB1E8" stroke-width="1" fill="none" opacity="0.9"><circle cx="70" cy="60" r="8"/><circle cx="70" cy="95" r="8"/><circle cx="70" cy="130" r="8"/><circle cx="150" cy="45" r="8"/><circle cx="150" cy="80" r="8"/><circle cx="150" cy="115" r="8"/><circle cx="150" cy="150" r="8"/><circle cx="230" cy="70" r="8"/><circle cx="230" cy="110" r="8"/><path d="M78 60 L142 45 M78 60 L142 80 M78 95 L142 45 M78 95 L142 80 M78 95 L142 115 M78 130 L142 80 M78 130 L142 115 M78 130 L142 150 M158 45 L222 70 M158 80 L222 70 M158 80 L222 110 M158 115 L222 70 M158 115 L222 110 M158 150 L222 110"/></g></svg>`,
   app: `<svg viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="190" fill="#0A2038"/><g stroke="#6FB1E8" stroke-width="1.3" fill="none"><rect x="118" y="20" width="64" height="150" rx="8"/><line x1="118" y1="40" x2="182" y2="40"/><line x1="118" y1="150" x2="182" y2="150"/><circle cx="150" cy="160" r="4"/><path d="M132 70 h36 M132 85 h36 M132 100 h24" stroke-dasharray="2 3"/></g></svg>`,
