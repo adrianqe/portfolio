@@ -9,9 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap" rel="stylesheet">
 <style>
-/* ============================================================
-   TOKENS — edit these to re-theme the whole site
-   ============================================================ */
+
 :root{
   --ink:#0B2545;
   --blueprint-deep:#0A2038;
@@ -130,6 +128,20 @@ header.nav{
 }
 .nav-toggle span::before{position:absolute; top:-6px;}
 .nav-toggle span::after{position:absolute; top:6px;}
+
+.lang-toggle{
+  display:flex; align-items:center; gap:0;
+  font-family:var(--font-mono); font-size:12px; letter-spacing:.04em;
+  border:1px solid var(--paper-line); border-radius:20px;
+  overflow:hidden; margin-left:18px;
+}
+.lang-toggle button{
+  background:none; border:none; cursor:pointer;
+  padding:6px 13px; color:var(--muted);
+  transition:background .15s, color .15s;
+}
+.lang-toggle button.active{background:var(--ink); color:var(--white);}
+@media (max-width:760px){ .lang-toggle{margin-left:auto; margin-right:10px;} }
 
 @media (max-width:760px){
   .nav-links{
@@ -373,8 +385,9 @@ section.alt{background:var(--white); border-top:1px solid var(--paper-line); bor
 .degree-card .meta{font-family:var(--font-mono); font-size:12.5px; color:var(--muted); margin-bottom:14px;}
 .degree-card p{margin:0; font-size:14.5px; color:#2b3d52;}
 
-
+/* ============================================================
  CONTACT / FOOTER
+    ============================================================ */
    
 footer.contact{
   background:var(--blueprint-deep); color:var(--white); padding:80px 0 40px;
@@ -397,30 +410,33 @@ footer.contact{
 <header class="nav">
   <div class="nav-inner">
     <div class="nav-mark"><span class="dot"></span>A. QUIRÓS ELIZONDO</div>
+    <div class="lang-toggle" role="group" aria-label="Language / Idioma">
+      <button type="button" id="langEn" class="active" aria-pressed="true">EN</button>
+      <button type="button" id="langEs" aria-pressed="false">ES</button>
+    </div>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false"><span></span></button>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#about">About</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#education">Education</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#about" data-i18n="nav.about">About</a></li>
+      <li><a href="#experience" data-i18n="nav.experience">Experience</a></li>
+      <li><a href="#projects" data-i18n="nav.projects">Projects</a></li>
+      <li><a href="#education" data-i18n="nav.education">Education</a></li>
+      <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
     </ul>
   </div>
 </header>
 
 
-// HERO
      
 <section class="hero grid-bg-dark">
   <div class="wrap">
     <div class="hero-grid">
       <div>
-        <div class="sheet-label"><span class="num">SHEET 01/05</span> — PROFILE</div>
-        <h1>Systems that govern<br>and automate <span class="accent">data</span>.</h1>
+        <div class="sheet-label"><span class="num" data-i18n="sheetnum.01">SHEET 01/05</span> — <span data-i18n="hero.sheet">PROFILE</span></div>
+        <h1><span data-i18n="hero.h1a">Designing and building</span><br><span data-i18n="hero.h1b">high-impact solutions in</span> <span class="accent" data-i18n="hero.h1c">Tech.</span></h1>
         <div class="role" id="heroRole"></div>
-        <p class="lede">Systems Information Engineer building the pipeline between messy enterprise processes and reliable, well-governed data. From workflow automation to hands-on data engineering projects.</p>
+        <p class="lede" data-i18n="hero.lede">Systems Information Engineer building the pipeline between messy enterprise processes and reliable, well-governed data. From workflow automation to hands-on data engineering projects.</p>
         <div class="hero-cta">
-          <a class="btn btn-solid" href="mailto:ajquirose05@gmail.com">Email me</a>
+          <a class="btn btn-solid" href="mailto:ajquirose05@gmail.com" data-i18n="hero.btnEmail">Email me</a>
           <a class="btn btn-outline" href="https://www.linkedin.com/in/adrian-quiros-elizondo-639906300/" target="_blank" rel="noopener">LinkedIn ↗</a>
           <a class="btn btn-outline" href="https://github.com/adrianqe" target="_blank" rel="noopener">GitHub ↗</a>
         </div>
@@ -433,7 +449,7 @@ footer.contact{
       </div>
     </div>
 
-    <svg class="schematic" viewBox="0 0 1000 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Career workflow diagram: Requirements, Automate, Govern, Engineer">
+    <svg class="schematic" id="schematicSvg" viewBox="0 0 1000 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Career workflow diagram: Requirements, Automate, Govern, Engineer">
       <path class="flow-line" d="M 95 75 H 320" />
       <path class="flow-line" d="M 415 75 H 640" style="animation-delay:.6s"/>
       <path class="flow-line" d="M 735 75 H 905" style="animation-delay:.9s"/>
@@ -442,118 +458,113 @@ footer.contact{
       <polygon class="flow-arrow" points="905,70 905,80 917,75"/>
 
       <circle class="node-circle" cx="50" cy="75" r="45"/>
-      <text class="node-label" x="50" y="72" text-anchor="middle">REQUIRE-</text>
-      <text class="node-label" x="50" y="86" text-anchor="middle">MENTS</text>
-      <text class="node-sub" x="50" y="135" text-anchor="middle">Business analysis</text>
+      <text class="node-label" id="nodeReq1" x="50" y="72" text-anchor="middle">REQUIRE-</text>
+      <text class="node-label" id="nodeReq2" x="50" y="86" text-anchor="middle">MENTS</text>
+      <text class="node-sub" id="nodeReqSub" x="50" y="135" text-anchor="middle">Business analysis</text>
 
       <circle class="node-circle" cx="375" cy="75" r="45"/>
-      <text class="node-label" x="375" y="79" text-anchor="middle">AUTOMATE</text>
+      <text class="node-label" id="nodeAuto" x="375" y="79" text-anchor="middle">AUTOMATE</text>
       <text class="node-sub" x="375" y="135" text-anchor="middle">Power Automate · UiPath</text>
 
       <circle class="node-circle" cx="690" cy="75" r="45"/>
-      <text class="node-label" x="690" y="79" text-anchor="middle">GOVERN</text>
+      <text class="node-label" id="nodeGov" x="690" y="79" text-anchor="middle">GOVERN</text>
       <text class="node-sub" x="690" y="135" text-anchor="middle">Purview · Fabric · Databricks</text>
 
       <circle class="node-circle" cx="960" cy="75" r="45" stroke="#FF6A3D"/>
-      <text class="node-label" x="960" y="79" text-anchor="middle" fill="#FF6A3D">ENGINEER</text>
-      <text class="node-sub" x="960" y="135" text-anchor="middle">Data · AI/ML — next</text>
+      <text class="node-label" id="nodeEng" x="960" y="79" text-anchor="middle" fill="#FF6A3D">ENGINEER</text>
+      <text class="node-sub" id="nodeEngSub" x="960" y="135" text-anchor="middle">Data · AI/ML — next</text>
     </svg>
   </div>
 </section>
 
-// ABOUT
 
 <section id="about">
   <div class="wrap">
-    <div class="sheet-label"><span class="num">SHEET 02/05</span> — ABOUT</div>
+    <div class="sheet-label"><span class="num" data-i18n="sheetnum.02">SHEET 02/05</span> — <span data-i18n="about.sheet">ABOUT</span></div>
     <div class="about-grid reveal">
       <div>
-        <h2 style="margin-bottom:18px;">From process to platform.</h2>
-        <p>I'm a Systems Information Engineering graduate (Universidad Latina de Costa Rica, AVG 92.3/100) who spent eight months inside Emerson's global operations learning how large organizations actually move data: first by redesigning and automating their workflows, then by governing the data those workflows produced.</p>
-        <p>That path — analyst → automation → governance — is pointing me toward data engineering and applied AI/ML, where I want to build the pipelines and systems that make good data possible in the first place, not just report on it after the fact.</p>
-        <p>Outside of work: I train outdoors on the hills around Naranjo, tinker with self-hosted servers and modded Minecraft infrastructure, and I'm the kind of person who reads a car's mechanicals the way other people read a book.</p>
+        <h2 style="margin-bottom:18px;" data-i18n="about.h2">From process to platform.</h2>
+        <p data-i18n="about.p1">I'm a Systems Information Engineering graduate (Universidad Latina de Costa Rica, AVG 92.3/100) who spent eight months inside Emerson's global operations learning how large organizations actually move data: first by redesigning and automating their workflows, then by governing the data those workflows produced.</p>
+        <p data-i18n="about.p2">That path — analyst → automation → governance — is pointing me toward data engineering and applied AI/ML, where I want to build the pipelines and systems that make good data possible in the first place, not just report on it after the fact.</p>
+        <p data-i18n="about.p3">Outside of work: I train outdoors on the hills around Naranjo, tinker with self-hosted servers and it's infrastructure, and I'm the kind of person who reads a car's mechanicals the way other people read a book.</p>
       </div>
       <dl class="spec-table">
-        <div class="spec-row"><dt>Based in</dt><dd>Alajuela, Costa Rica</dd></div>
-        <div class="spec-row"><dt>Focus</dt><dd>Data Engineering / AI-ML</dd></div>
-        <div class="spec-row"><dt>Also open to</dt><dd>Data Governance · Automation · QA</dd></div>
-        <div class="spec-row"><dt>Languages</dt><dd>Spanish (native) · English (B2+)</dd></div>
-        <div class="spec-row"><dt>Work mode</dt><dd>Hybrid preferred</dd></div>
-        <div class="spec-row"><dt>Contact</dt><dd>ajquirose05@gmail.com</dd></div>
+        <div class="spec-row"><dt data-i18n="about.dt.based">Based in</dt><dd>Alajuela, Costa Rica</dd></div>
+        <div class="spec-row"><dt data-i18n="about.dt.focus">Focus</dt><dd>Data Engineering / AI-ML</dd></div>
+        <div class="spec-row"><dt data-i18n="about.dt.open">Also open to</dt><dd data-i18n="about.dd.open">Data Governance · Automation · QA</dd></div>
+        <div class="spec-row"><dt data-i18n="about.dt.lang">Languages</dt><dd data-i18n="about.dd.lang">Spanish (native) · English (B2+)</dd></div>
+        <div class="spec-row"><dt data-i18n="about.dt.mode">Work mode</dt><dd data-i18n="about.dd.mode">Hybrid preferred</dd></div>
+        <div class="spec-row"><dt data-i18n="about.dt.contact">Contact</dt><dd>ajquirose05@gmail.com</dd></div>
       </dl>
     </div>
   </div>
 </section>
 
 
-// EXPERIENCE
      
 <section id="experience" class="alt grid-bg">
   <div class="wrap">
-    <div class="sheet-label"><span class="num">SHEET 03/05</span> — EXPERIENCE</div>
+    <div class="sheet-label"><span class="num" data-i18n="sheetnum.03">SHEET 03/05</span> — <span data-i18n="experience.sheet">EXPERIENCE</span></div>
     <div class="section-head reveal">
-      <h2>Work experience</h2>
-      <p>Eight months inside a Fortune 500 operation — first redesigning how work flows, then governing the data behind it.</p>
+      <h2 data-i18n="experience.h2">Work experience</h2>
+      <p data-i18n="experience.p">Eight months inside a Fortune 500 operation — first redesigning how work flows, then governing the data behind it.</p>
     </div>
     <div class="timeline reveal" id="experienceTimeline"></div>
   </div>
 </section>
 
 
-// SKILLS
 <section id="skills">
   <div class="wrap">
-    <div class="sheet-label"><span class="num">SHEET 03/05</span> — CAPABILITIES</div>
+    <div class="sheet-label"><span class="num" data-i18n="sheetnum.03b">SHEET 03/05</span> — <span data-i18n="skills.sheet">CAPABILITIES</span></div>
     <div class="section-head reveal">
-      <h2>Technical toolkit</h2>
-      <p>Grouped by where I use it, not just what it is.</p>
+      <h2 data-i18n="skills.h2">Technical toolkit</h2>
+      <p data-i18n="skills.p">Grouped by where I use it, not just what it is.</p>
     </div>
     <div class="skills-grid reveal" id="skillsGrid"></div>
   </div>
 </section>
 
-// PROJECTS
+
      
 <section id="projects" class="alt grid-bg">
   <div class="wrap">
-    <div class="sheet-label"><span class="num">SHEET 04/05</span> — PROJECTS</div>
+    <div class="sheet-label"><span class="num" data-i18n="sheetnum.04">SHEET 04/05</span> — <span data-i18n="projects.sheet">PROJECTS</span></div>
     <div class="section-head reveal">
-      <h2>Selected projects</h2>
-      <p>A mix of applied ML, automated testing, and full-stack builds — pulled straight from <a href="https://github.com/adrianqe" target="_blank" rel="noopener" style="color:var(--accent); text-decoration:none;">github.com/adrianqe</a>.</p>
+      <h2 data-i18n="projects.h2">Selected projects</h2>
+      <p><span data-i18n="projects.introPre">A mix of applied ML, automated testing, and full-stack builds — pulled straight from</span> <a href="https://github.com/adrianqe" target="_blank" rel="noopener" style="color:var(--accent); text-decoration:none;">github.com/adrianqe</a>.</p>
     </div>
     <div class="projects-grid reveal" id="projectsGrid"></div>
   </div>
 </section>
 
-// EDUCATION / CERTS
 <section id="education">
   <div class="wrap">
-    <div class="sheet-label"><span class="num">SHEET 05/05</span> — EDUCATION &amp; CERTIFICATIONS</div>
+    <div class="sheet-label"><span class="num" data-i18n="sheetnum.05">SHEET 05/05</span> — <span data-i18n="education.sheet">EDUCATION &amp; CERTIFICATIONS</span></div>
     <div class="edu-grid reveal">
       <div class="edu-block">
-        <h3>Degree</h3>
+        <h3 data-i18n="education.degreeLabel">Degree</h3>
         <div class="degree-card">
-          <h4>B.Sc. Systems Information Engineering</h4>
-          <div class="meta">Universidad Latina de Costa Rica · Graduating Aug 2026</div>
-          <p>Thesis: Federated Data Governance Model (Emerson MSOL). Relevant coursework: AI, Data Analysis, Probability &amp; Statistics, OOP, Systems Design.</p>
+          <h4 data-i18n="education.degreeName">B.Sc. Systems Information Engineering</h4>
+          <div class="meta" data-i18n="education.degreeMeta">Universidad Latina de Costa Rica · Graduating Aug 2026</div>
+          <p data-i18n="education.degreeDesc">Thesis: Federated Data Governance Model (Emerson MSOL). Relevant coursework: AI, Data Analysis, Probability &amp; Statistics, OOP, Systems Design.</p>
         </div>
       </div>
       <div class="edu-block">
-        <h3>Certifications</h3>
+        <h3 data-i18n="education.certLabel">Certifications</h3>
         <ul class="cert-list" id="certList"></ul>
       </div>
     </div>
   </div>
 </section>
 
-// CONTACT / FOOTER
 
      
 <footer class="contact grid-bg-dark" id="contact">
   <div class="wrap contact-inner">
-    <div class="sheet-label">END OF SET</div>
-    <h2>Let's build something.</h2>
-    <p>Open to Data Engineering, AI/ML, Data Governance, Intelligent Automation, and QA roles — hybrid preferred, based in Costa Rica.</p>
+    <div class="sheet-label" data-i18n="footer.sheet">END OF SET</div>
+    <h2 data-i18n="footer.h2">Let's build something.</h2>
+    <p data-i18n="footer.p">Open to Data Engineering, AI/ML, Data Governance, Intelligent Automation, and QA roles — hybrid preferred, based in Costa Rica.</p>
     <div class="contact-links">
       <a class="btn btn-solid" href="mailto:ajquirose05@gmail.com">ajquirose05@gmail.com</a>
       <a class="btn btn-outline" href="https://www.linkedin.com/in/adrian-quiros-elizondo-639906300/" target="_blank" rel="noopener">LinkedIn ↗</a>
@@ -571,84 +582,113 @@ footer.contact{
 
 const EXPERIENCE = [
   {
-    role: "Data Governance Intern",
+    role: { en: "Data Governance Intern", es: "Pasante de Gobernanza de Datos" },
     org: "Emerson (Fortune 500) · San José, CR",
-    date: "Jan 2026 – Apr 2026",
-    bullets: [
-      "Led a Microsoft 365 Copilot Proof of Value project: interviewed VPs, Directors, and Managers to translate business requirements into functional workflow agents using Copilot Studio.",
-      "Architected data governance protocols, data catalogs, and lineage frameworks across enterprise platforms (Azure Databricks, Microsoft Fabric, Oracle).",
-      "Delivered adoption metrics and strategic presentations to senior leadership, facilitating training and knowledge transfer across business units.",
-      "Configured Microsoft Purview for asset scanning and metadata management within cloud tenant environments."
-    ]
+    date: { en: "Jan 2026 – Apr 2026", es: "Ene 2026 – Abr 2026" },
+    bullets: {
+      en: [
+        "Led a Microsoft 365 Copilot Proof of Value project: interviewed VPs, Directors, and Managers to translate business requirements into functional workflow agents using Copilot Studio.",
+        "Architected data governance protocols, data catalogs, and lineage frameworks across enterprise platforms (Azure Databricks, Microsoft Fabric, Oracle).",
+        "Delivered adoption metrics and strategic presentations to senior leadership, facilitating training and knowledge transfer across business units.",
+        "Configured Microsoft Purview for asset scanning and metadata management within cloud tenant environments."
+      ],
+      es: [
+        "Lideré un Proof of Value de Microsoft 365 Copilot: entrevisté a VPs, Directores y Gerentes para traducir requerimientos de negocio en agentes de workflow funcionales usando Copilot Studio.",
+        "Diseñé protocolos de gobernanza de datos, catálogos de datos y frameworks de linaje en plataformas empresariales (Azure Databricks, Microsoft Fabric, Oracle).",
+        "Presenté métricas de adopción y reportes estratégicos a liderazgo senior, facilitando capacitaciones y transferencia de conocimiento entre áreas de negocio.",
+        "Configuré Microsoft Purview para escaneo de activos y gestión de metadatos en entornos cloud."
+      ]
+    }
   },
   {
-    role: "Intelligent Automation Intern",
+    role: { en: "Intelligent Automation Intern", es: "Pasante de Automatización Inteligente" },
     org: "Emerson (Fortune 500) · San José, CR",
-    date: "Sep 2025 – Dec 2025",
-    bullets: [
-      "Acted as Business Analyst for process redesign: gathered functional requirements, identified inefficiencies, created UI/UX mockups in Figma, and presented solutions to global stakeholders.",
-      "Designed, configured, tested, and deployed end-to-end cloud workflow solutions using Power Automate (Cloud &amp; Desktop) and UiPath, improving operational throughput.",
-      "Managed CI/CD pipelines across DEV, UAT, and PROD environments using Azure DevOps, enforcing governance and version control standards.",
-      "Built an Executive Automation Tracking Dashboard (Power Automate + Dataverse) with real-time KPIs on workflow executions, error rates, and volume.",
-      "Provided Tier-2 functional and technical support via ServiceNow: root cause analysis, defect diagnosis, fixes, and traceability documentation."
-    ]
+    date: { en: "Sep 2025 – Dec 2025", es: "Sep 2025 – Dic 2025" },
+    bullets: {
+      en: [
+        "Acted as Business Analyst for process redesign: gathered functional requirements, identified inefficiencies, created UI/UX mockups in Figma, and presented solutions to global stakeholders.",
+        "Designed, configured, tested, and deployed end-to-end cloud workflow solutions using Power Automate (Cloud &amp; Desktop) and UiPath, improving operational throughput.",
+        "Managed CI/CD pipelines across DEV, UAT, and PROD environments using Azure DevOps, enforcing governance and version control standards.",
+        "Built an Executive Automation Tracking Dashboard (Power Automate + Dataverse) with real-time KPIs on workflow executions, error rates, and volume.",
+        "Provided Tier-2 functional and technical support via ServiceNow: root cause analysis, defect diagnosis, fixes, and traceability documentation."
+      ],
+      es: [
+        "Actué como Analista de Negocio en el rediseño de procesos: relevé requerimientos funcionales, identifiqué ineficiencias, creé mockups de UI/UX en Figma y presenté soluciones a stakeholders globales.",
+        "Diseñé, configuré, probé y desplegué soluciones de workflow cloud de punta a punta con Power Automate (Cloud y Desktop) y UiPath, mejorando el throughput operativo.",
+        "Administré pipelines de CI/CD en entornos DEV, UAT y PROD con Azure DevOps, aplicando estándares de gobernanza y control de versiones.",
+        "Construí un Dashboard Ejecutivo de Automatización (Power Automate + Dataverse) con KPIs en tiempo real de ejecuciones, tasas de error y volumen.",
+        "Brindé soporte funcional y técnico de nivel 2 vía ServiceNow: análisis de causa raíz, diagnóstico de defectos, correcciones y documentación de trazabilidad."
+      ]
+    }
   }
 ];
 
 const SKILLS = [
   {
-    group: "Data & Cloud Platforms",
+    group: { en: "Data & Cloud Platforms", es: "Datos y Plataformas Cloud" },
     tags: ["Azure Databricks", "Microsoft Fabric", "Microsoft Purview", "Snowflake", "Oracle", "SAP", "Dataverse"]
   },
   {
-    group: "Automation & Workflow",
+    group: { en: "Automation & Workflow", es: "Automatización y Workflows" },
     tags: ["Power Automate", "UiPath", "Azure DevOps", "ServiceNow"]
   },
   {
-    group: "Languages & Frameworks",
+    group: { en: "Languages & Frameworks", es: "Lenguajes y Frameworks" },
     tags: ["Python", "SQL", "C#", "JavaScript", ".NET MAUI", "ASP.NET Core"]
   },
   {
-    group: "QA & Testing",
+    group: { en: "QA & Testing", es: "QA y Pruebas" },
     tags: ["Cypress", "API Testing", "UAT", "Defect RCA"]
   }
 ];
 
 const PROJECTS = [
   {
-    tag: "Machine Learning",
-    title: "Facial Emotion Recognition CNN",
-    desc: "Three iterations of a CNN trained with TensorFlow/Keras to classify facial emotion from webcam input, reaching 73.78% accuracy. Deployed with a Flask + Gunicorn backend, model hosted on Hugging Face Hub.",
+    tag: { en: "Machine Learning", es: "Aprendizaje Automático" },
+    title: { en: "Facial Emotion Recognition CNN", es: "CNN de Reconocimiento de Emociones Faciales" },
+    desc: {
+      en: "Three iterations of a CNN trained with TensorFlow/Keras to classify facial emotion from webcam input, reaching 73.78% accuracy. Deployed with a Flask + Gunicorn backend, model hosted on Hugging Face Hub.",
+      es: "Tres iteraciones de una CNN entrenada con TensorFlow/Keras para clasificar emociones faciales desde webcam, alcanzando 73.78% de precisión. Desplegada con backend Flask + Gunicorn, modelo alojado en Hugging Face Hub."
+    },
     stack: ["TensorFlow", "Keras", "Flask", "OpenCV"],
     url: "https://huggingface.co/adrianqe",
-    linkLabel: "View on Hugging Face",
+    linkLabel: { en: "View on Hugging Face", es: "Ver en Hugging Face" },
     thumb: "cnn"
   },
   {
-    tag: "Mobile App",
-    title: "NutriApp — Food Scanner",
-    desc: "Mobile app that scans food products and returns nutritional information, built with .NET MAUI on the front end and an ASP.NET Core API on the back end.",
+    tag: { en: "Mobile App", es: "Aplicación Móvil" },
+    title: { en: "NutriApp — Food Scanner", es: "NutriApp — Escáner de Alimentos" },
+    desc: {
+      en: "Mobile app that scans food products and returns nutritional information, built with .NET MAUI on the front end and an ASP.NET Core API on the back end.",
+      es: "App móvil que escanea productos alimenticios y devuelve información nutricional, construida con .NET MAUI en el frontend y una API en ASP.NET Core en el backend."
+    },
     stack: [".NET MAUI", "ASP.NET Core", "C#"],
     url: "https://github.com/adrianqe/NutriApp",
-    linkLabel: "View on GitHub",
+    linkLabel: { en: "View on GitHub", es: "Ver en GitHub" },
     thumb: "app"
   },
   {
-    tag: "QA Automation",
-    title: "PokeAPI Test Suite",
-    desc: "Automated API test suite built with Cypress against the public PokeAPI, covering request validation, response schemas, and edge cases.",
+    tag: { en: "QA Automation", es: "Automatización QA" },
+    title: { en: "PokeAPI Test Suite", es: "Suite de Pruebas PokeAPI" },
+    desc: {
+      en: "Automated API test suite built with Cypress against the public PokeAPI, covering request validation, response schemas, and edge cases.",
+      es: "Suite de pruebas automatizadas de API construida con Cypress contra la PokeAPI pública, cubriendo validación de requests, esquemas de respuesta y casos límite."
+    },
     stack: ["Cypress", "JavaScript", "API Testing"],
     url: "https://github.com/adrianqe/poke-api-test",
-    linkLabel: "View on GitHub",
+    linkLabel: { en: "View on GitHub", es: "Ver en GitHub" },
     thumb: "test"
   },
   {
-    tag: "Web Project",
-    title: "NASA Project Management Site",
-    desc: "Educational web project simulating a NASA project-management tool — structuring project data, timelines, and status tracking in a browser-based interface.",
+    tag: { en: "Web Project", es: "Proyecto Web" },
+    title: { en: "NASA Project Management Site", es: "Sitio de Gestión de Proyectos NASA" },
+    desc: {
+      en: "Educational web project simulating a NASA project-management tool — structuring project data, timelines, and status tracking in a browser-based interface.",
+      es: "Proyecto web educativo que simula una herramienta de gestión de proyectos tipo NASA — estructurando datos de proyecto, cronogramas y seguimiento de estado en una interfaz web."
+    },
     stack: ["HTML", "CSS", "JavaScript"],
     url: "https://github.com/adrianqe/NASA-Web-Project",
-    linkLabel: "View on GitHub",
+    linkLabel: { en: "View on GitHub", es: "Ver en GitHub" },
     thumb: "nasa"
   }
 ];
@@ -660,45 +700,143 @@ const CERTIFICATIONS = [
   { name: "Business Intelligence Foundation Professional Certificate — Certiprof", year: "2025" },
   { name: "Scrum Fundamentals Professional Certificate — Certiprof", year: "2024" },
   { name: "Foundations of Innovation — Arizona State University", year: "2024" },
-  { name: "CCNA 1–2 — Cisco Networking Academy", year: "" }
+  { name: "CCNA 1–2 — Cisco Networking Academy", year: "2024" }
 ];
 
-const ROLE_STRINGS = [
-  "Systems Information Engineer",
-  "Data Governance · Intelligent Automation",
-  "Aspiring Data / AI-ML Engineer"
-];
+const ROLE_STRINGS = {
+  en: ["Systems Information Engineer", "Data Governance · Intelligent Automation", "Aspiring Data / AI-ML Engineer"],
+  es: ["Ingeniero en Sistemas de Información", "Gobernanza de Datos · Automatización Inteligente", "Aspirante a Ingeniero de Datos / IA-ML"]
+};
+
+/* ================================================================
+   TRANSLATIONS — static UI copy. Key by data-i18n attribute value.
+   ================================================================ */
+const STRINGS = {
+  "nav.about": { en: "About", es: "Sobre mí" },
+  "nav.experience": { en: "Experience", es: "Experiencia" },
+  "nav.projects": { en: "Projects", es: "Proyectos" },
+  "nav.education": { en: "Education", es: "Educación" },
+  "nav.contact": { en: "Contact", es: "Contacto" },
+
+  "sheetnum.01": { en: "SHEET 01/05", es: "HOJA 01/05" },
+  "sheetnum.02": { en: "SHEET 02/05", es: "HOJA 02/05" },
+  "sheetnum.03": { en: "SHEET 03/05", es: "HOJA 03/05" },
+  "sheetnum.03b": { en: "SHEET 03/05", es: "HOJA 03/05" },
+  "sheetnum.04": { en: "SHEET 04/05", es: "HOJA 04/05" },
+  "sheetnum.05": { en: "SHEET 05/05", es: "HOJA 05/05" },
+
+  "hero.sheet": { en: "PROFILE", es: "PERFIL" },
+  "hero.h1a": { en: "Designing and building", es: "Diseñando y construyendo" },
+  "hero.h1b": { en: "high-impact solutions in", es: "soluciones de alto impacto en" },
+  "hero.h1c": { en: "Tech.", es: "Tech." },
+  "hero.lede": {
+    en: "Systems Information Engineer building the pipeline between messy enterprise processes and reliable, well-governed data. From workflow automation to hands-on data engineering projects.",
+    es: "Ingeniero en Sistemas de Información construyendo el puente entre procesos empresariales desordenados y datos confiables y bien gobernados. Desde automatización de workflows hasta proyectos prácticos de ingeniería de datos."
+  },
+  "hero.btnEmail": { en: "Email me", es: "Escríbeme" },
+
+  "about.sheet": { en: "ABOUT", es: "SOBRE MÍ" },
+  "about.h2": { en: "From process to platform.", es: "Del proceso a la plataforma." },
+  "about.p1": {
+    en: "I'm a Systems Information Engineering graduate (Universidad Latina de Costa Rica, AVG 92.3/100) who spent eight months inside Emerson's global operations learning how large organizations actually move data: first by redesigning and automating their workflows, then by governing the data those workflows produced.",
+    es: "Soy graduado de Ingeniería en Sistemas de Información (Universidad Latina de Costa Rica, promedio 92.3/100) y pasé ocho meses dentro de las operaciones globales de Emerson aprendiendo cómo las grandes organizaciones mueven sus datos: primero rediseñando y automatizando sus procesos, luego gobernando los datos que esos procesos generaban."
+  },
+  "about.p2": {
+    en: "That path — analyst → automation → governance — is pointing me toward data engineering and applied AI/ML, where I want to build the pipelines and systems that make good data possible in the first place, not just report on it after the fact.",
+    es: "Ese camino — analista → automatización → gobernanza — me está llevando hacia la ingeniería de datos y el AI/ML aplicado, donde quiero construir los pipelines y sistemas que hacen posible tener buenos datos desde el inicio, no solo reportarlos después."
+  },
+  "about.p3": {
+    en: "Outside of work: I train outdoors on the hills around Naranjo, tinker with self-hosted servers and it's infrastructure, and I'm the kind of person who reads a car's mechanicals the way other people read a book.",
+    es: "Fuera del trabajo: entreno al aire libre en Naranjo, trasteo con servidores propios y su infraestructura, soy de los que leen la mecánica de un carro como otros leen un libro."
+  },
+  "about.dt.based": { en: "Based in", es: "Ubicado en" },
+  "about.dt.focus": { en: "Focus", es: "Enfoque" },
+  "about.dt.open": { en: "Also open to", es: "También abierto a" },
+  "about.dd.open": { en: "Data Governance · Automation · QA", es: "Gobernanza de Datos · Automatización · QA" },
+  "about.dt.lang": { en: "Languages", es: "Idiomas" },
+  "about.dd.lang": { en: "Spanish (native) · English (B2+)", es: "Español (nativo) · Inglés (B2+)" },
+  "about.dt.mode": { en: "Work mode", es: "Modalidad" },
+  "about.dd.mode": { en: "Hybrid preferred", es: "Preferencia híbrida" },
+  "about.dt.contact": { en: "Contact", es: "Contacto" },
+
+  "experience.sheet": { en: "EXPERIENCE", es: "EXPERIENCIA" },
+  "experience.h2": { en: "Work experience", es: "Experiencia laboral" },
+  "experience.p": {
+    en: "Eight months inside a Fortune 500 operation — first redesigning how work flows, then governing the data behind it.",
+    es: "Ocho meses dentro de una operación Fortune 500 — primero rediseñando cómo fluye el trabajo, luego gobernando los datos detrás de él."
+  },
+
+  "skills.sheet": { en: "CAPABILITIES", es: "CAPACIDADES" },
+  "skills.h2": { en: "Technical toolkit", es: "Herramientas técnicas" },
+  "skills.p": { en: "Grouped by where I use it, not just what it is.", es: "Agrupadas según dónde las uso, no solo qué son." },
+
+  "projects.sheet": { en: "PROJECTS", es: "PROYECTOS" },
+  "projects.h2": { en: "Selected projects", es: "Proyectos seleccionados" },
+  "projects.introPre": {
+    en: "A mix of applied ML, automated testing, and full-stack builds — pulled straight from",
+    es: "Una mezcla de ML aplicado, pruebas automatizadas y proyectos full-stack — disponibles en"
+  },
+
+  "education.sheet": { en: "EDUCATION &amp; CERTIFICATIONS", es: "EDUCACIÓN Y CERTIFICACIONES" },
+  "education.degreeLabel": { en: "Degree", es: "Título" },
+  "education.degreeName": { en: "B.Sc. Systems Information Engineering", es: "Ingeniería en Sistemas de Información" },
+  "education.degreeMeta": { en: "Universidad Latina de Costa Rica · Graduating Aug 2026", es: "Universidad Latina de Costa Rica · Graduación: agosto 2026" },
+  "education.degreeDesc": {
+    en: "Thesis: Federated Data Governance Model (Emerson MSOL). Relevant coursework: AI, Data Analysis, Probability &amp; Statistics, OOP, Systems Design.",
+    es: "Tesis: Modelo Federado de Gobernanza de Datos (Emerson MSOL). Cursos relevantes: IA, Análisis de Datos, Probabilidad y Estadística, POO, Diseño de Sistemas."
+  },
+  "education.certLabel": { en: "Certifications", es: "Certificaciones" },
+
+  "footer.sheet": { en: "END OF SET", es: "FIN DEL SET" },
+  "footer.h2": { en: "Let's build something.", es: "Construyamos algo." },
+  "footer.p": {
+    en: "Open to Data Engineering, AI/ML, Data Governance, Intelligent Automation, and QA roles — hybrid preferred, based in Costa Rica.",
+    es: "Abierto a roles de Ingeniería de Datos, IA/ML, Gobernanza de Datos, Automatización Inteligente y QA — preferencia híbrida, ubicado en Costa Rica."
+  }
+};
+
+const SCHEMATIC_TEXT = {
+  en: { req1: "REQUIRE-", req2: "MENTS", reqSub: "Business analysis", auto: "AUTOMATE", gov: "GOVERN", eng: "ENGINEER", engSub: "Data · AI/ML — next",
+        aria: "Career workflow diagram: Requirements, Automate, Govern, Engineer" },
+  es: { req1: "REQUISI-", req2: "TOS", reqSub: "Análisis de negocio", auto: "AUTOMATIZA", gov: "GOBERNAR", eng: "INGENIERO", engSub: "Datos · IA/ML — próximo",
+        aria: "Diagrama de trayectoria profesional: Requisitos, Automatizar, Gobernar, Ingeniería" }
+};
 
 
 // Experience timeline
 const tl = document.getElementById('experienceTimeline');
-EXPERIENCE.forEach(item => {
-  const el = document.createElement('div');
-  el.className = 'tl-item';
-  el.innerHTML = `
-    <div class="tl-dot"></div>
-    <div class="tl-card">
-      <div class="tl-head">
-        <div class="tl-role">${item.role}</div>
-        <div class="tl-date">${item.date}</div>
-      </div>
-      <div class="tl-org">${item.org}</div>
-      <ul class="tl-list">${item.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
-    </div>`;
-  tl.appendChild(el);
-});
+function renderExperience(lang){
+  tl.innerHTML = '';
+  EXPERIENCE.forEach(item => {
+    const el = document.createElement('div');
+    el.className = 'tl-item';
+    el.innerHTML = `
+      <div class="tl-dot"></div>
+      <div class="tl-card">
+        <div class="tl-head">
+          <div class="tl-role">${item.role[lang]}</div>
+          <div class="tl-date">${item.date[lang]}</div>
+        </div>
+        <div class="tl-org">${item.org}</div>
+        <ul class="tl-list">${item.bullets[lang].map(b => `<li>${b}</li>`).join('')}</ul>
+      </div>`;
+    tl.appendChild(el);
+  });
+}
 
 // Skills
 const sg = document.getElementById('skillsGrid');
-SKILLS.forEach(group => {
-  const el = document.createElement('div');
-  el.className = 'skill-card';
-  el.innerHTML = `
-    <h3>${group.group}</h3>
-    <div class="skill-tags">${group.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>`;
-  sg.appendChild(el);
-});
-
+function renderSkills(lang){
+  sg.innerHTML = '';
+  SKILLS.forEach(group => {
+    const el = document.createElement('div');
+    el.className = 'skill-card';
+    el.innerHTML = `
+      <h3>${group.group[lang]}</h3>
+      <div class="skill-tags">${group.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>`;
+    sg.appendChild(el);
+  });
+}
 
 const THUMBS = {
   cnn: `<svg viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="190" fill="#0A2038"/><g stroke="#6FB1E8" stroke-width="1" fill="none" opacity="0.9"><circle cx="70" cy="60" r="8"/><circle cx="70" cy="95" r="8"/><circle cx="70" cy="130" r="8"/><circle cx="150" cy="45" r="8"/><circle cx="150" cy="80" r="8"/><circle cx="150" cy="115" r="8"/><circle cx="150" cy="150" r="8"/><circle cx="230" cy="70" r="8"/><circle cx="230" cy="110" r="8"/><path d="M78 60 L142 45 M78 60 L142 80 M78 95 L142 45 M78 95 L142 80 M78 95 L142 115 M78 130 L142 80 M78 130 L142 115 M78 130 L142 150 M158 45 L222 70 M158 80 L222 70 M158 80 L222 110 M158 115 L222 70 M158 115 L222 110 M158 150 L222 110"/></g></svg>`,
@@ -708,49 +846,109 @@ const THUMBS = {
 };
 
 const pg = document.getElementById('projectsGrid');
-PROJECTS.forEach(p => {
-  const el = document.createElement('div');
-  el.className = 'proj-card';
-  const thumbContent = p.thumbImage
-    ? `<img src="${p.thumbImage}" alt="${p.title} screenshot">`
-    : (THUMBS[p.thumb] || '');
-  const linkHtml = p.url
-    ? `<a class="proj-link" href="${p.url}" target="_blank" rel="noopener">${p.linkLabel || 'View project'}
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
-      </a>`
-    : '';
-  el.innerHTML = `
-    <div class="proj-thumb">${thumbContent}</div>
-    <div class="proj-body">
-      <div class="proj-tag">${p.tag}</div>
-      <h3>${p.title}</h3>
-      <p>${p.desc}</p>
-      <div class="proj-stack">${p.stack.map(s => `<span>${s}</span>`).join('')}</div>
-      ${linkHtml}
-    </div>`;
-  pg.appendChild(el);
-});
+function renderProjects(lang){
+  pg.innerHTML = '';
+  PROJECTS.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'proj-card';
+    const thumbContent = p.thumbImage
+      ? `<img src="${p.thumbImage}" alt="${p.title[lang]} screenshot">`
+      : (THUMBS[p.thumb] || '');
+    const linkHtml = p.url
+      ? `<a class="proj-link" href="${p.url}" target="_blank" rel="noopener">${(p.linkLabel && p.linkLabel[lang]) || (lang === 'es' ? 'Ver proyecto' : 'View project')}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        </a>`
+      : '';
+    el.innerHTML = `
+      <div class="proj-thumb">${thumbContent}</div>
+      <div class="proj-body">
+        <div class="proj-tag">${p.tag[lang]}</div>
+        <h3>${p.title[lang]}</h3>
+        <p>${p.desc[lang]}</p>
+        <div class="proj-stack">${p.stack.map(s => `<span>${s}</span>`).join('')}</div>
+        ${linkHtml}
+      </div>`;
+    pg.appendChild(el);
+  });
+}
 
-// Certifications
+// Certifications (names/institutions kept identical in both languages —
+// they're proper nouns/official titles, standard practice on bilingual CVs)
 const cl = document.getElementById('certList');
-CERTIFICATIONS.forEach(c => {
-  const li = document.createElement('li');
-  li.innerHTML = `<span>${c.name}</span>${c.year ? `<span class="yr">${c.year}</span>` : ''}`;
-  cl.appendChild(li);
-});
+function renderCertifications(){
+  cl.innerHTML = '';
+  CERTIFICATIONS.forEach(c => {
+    const li = document.createElement('li');
+    li.innerHTML = `<span>${c.name}</span>${c.year ? `<span class="yr">${c.year}</span>` : ''}`;
+    cl.appendChild(li);
+  });
+}
+renderCertifications();
 
 // Rotating role string in hero
 const roleEl = document.getElementById('heroRole');
 let roleIdx = 0;
+let roleTimer = null;
 function typeRole(){
-  roleEl.textContent = '// ' + ROLE_STRINGS[roleIdx];
-  roleIdx = (roleIdx + 1) % ROLE_STRINGS.length;
+  const list = ROLE_STRINGS[currentLang];
+  roleEl.textContent = '// ' + list[roleIdx % list.length];
+  roleIdx = (roleIdx + 1) % list.length;
 }
-typeRole();
-setInterval(typeRole, 3200);
+function restartRoleRotation(){
+  roleIdx = 0;
+  typeRole();
+  if (roleTimer) clearInterval(roleTimer);
+  roleTimer = setInterval(typeRole, 3200);
+}
 
 // Year
 document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ================================================================
+   LANGUAGE SWITCHING
+   ================================================================ */
+let currentLang = localStorage.getItem('portfolio-lang') || 'en';
+
+function applyLanguage(lang){
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  localStorage.setItem('portfolio-lang', lang);
+
+  // Static text nodes
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const entry = STRINGS[key];
+    if (entry) el.innerHTML = entry[lang];
+  });
+
+  // Schematic SVG labels
+  const s = SCHEMATIC_TEXT[lang];
+  document.getElementById('nodeReq1').textContent = s.req1;
+  document.getElementById('nodeReq2').textContent = s.req2;
+  document.getElementById('nodeReqSub').textContent = s.reqSub;
+  document.getElementById('nodeAuto').textContent = s.auto;
+  document.getElementById('nodeGov').textContent = s.gov;
+  document.getElementById('nodeEng').textContent = s.eng;
+  document.getElementById('nodeEngSub').textContent = s.engSub;
+  document.getElementById('schematicSvg').setAttribute('aria-label', s.aria);
+
+  // Dynamic sections
+  renderExperience(lang);
+  renderSkills(lang);
+  renderProjects(lang);
+  restartRoleRotation();
+
+  // Toggle button state
+  document.getElementById('langEn').classList.toggle('active', lang === 'en');
+  document.getElementById('langEn').setAttribute('aria-pressed', lang === 'en');
+  document.getElementById('langEs').classList.toggle('active', lang === 'es');
+  document.getElementById('langEs').setAttribute('aria-pressed', lang === 'es');
+}
+
+document.getElementById('langEn').addEventListener('click', () => applyLanguage('en'));
+document.getElementById('langEs').addEventListener('click', () => applyLanguage('es'));
+
+applyLanguage(currentLang);
 
 // Nav toggle (mobile)
 const navToggle = document.getElementById('navToggle');
